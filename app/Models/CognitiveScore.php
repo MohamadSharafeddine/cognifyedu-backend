@@ -18,4 +18,9 @@ class CognitiveScore extends Model
         'memory',
         'attention_to_detail',
     ];
+
+    public function assignment()
+    {
+        return $this->belongsTo(Assignment::class);
+    }
 }
