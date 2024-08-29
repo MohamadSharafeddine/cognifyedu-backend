@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('submission_id')->constrained('submissions')->onDelete('cascade');
             $table->integer('engagement');
             $table->integer('time_management');
+            $table->integer('adaptability');
             $table->timestamps();
         });
     }
