@@ -18,4 +18,9 @@ class BehavioralScore extends Model
         'collaboration',
         'focus',
     ];
+
+    public function assignment()
+    {
+        return $this->belongsTo(Assignment::class);
+    }
 }
