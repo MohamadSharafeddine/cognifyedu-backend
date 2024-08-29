@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('assignment_id')->constrained('assignments')->onDelete('cascade');
             $table->foreignId('submission_id')->constrained('submissions')->onDelete('cascade');
+            $table->integer('critical_thinking');
             $table->timestamps();
         });
     }
