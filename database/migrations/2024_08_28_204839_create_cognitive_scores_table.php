@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('cognitive_scores', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('assignment_id')->constrained('assignments')->onDelete('cascade');
             $table->timestamps();
         });
     }
