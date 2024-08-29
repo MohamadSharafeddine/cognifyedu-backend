@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\ProfileComment;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProfileComment>
- */
 class ProfileCommentFactory extends Factory
 {
+    protected $model = ProfileComment::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,7 +18,10 @@ class ProfileCommentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'student_id' => User::where('type', 'student')->inRandomOrder()->first()->id,
+            'teacher_id' => User::where('type', 'teacher')->inRandomOrder()->first()->id,
+            'comment' => $this->faker->sentence(),
         ];
     }
 }
+
