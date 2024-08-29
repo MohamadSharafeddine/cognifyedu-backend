@@ -19,4 +19,9 @@ class JoinRequest extends Model
     {
         return $this->belongsTo(User::class, 'student_id');
     }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
 }
