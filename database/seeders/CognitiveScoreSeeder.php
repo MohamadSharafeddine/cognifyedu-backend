@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\CognitiveScore;
 
 class CognitiveScoreSeeder extends Seeder
 {
@@ -12,6 +12,6 @@ class CognitiveScoreSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        CognitiveScore::factory()->count(50)->create();
     }
 }
