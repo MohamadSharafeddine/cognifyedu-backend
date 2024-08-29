@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('behavioral_score_id')->constrained('behavioral_scores')->onDelete('cascade');
             $table->foreignId('profile_comment_id')->nullable()->constrained('profile_comments')->onDelete('set null');
             $table->text('summary')->nullable();
+            $table->text('detailed_analysis')->nullable();
             $table->timestamps();
         });
     }
