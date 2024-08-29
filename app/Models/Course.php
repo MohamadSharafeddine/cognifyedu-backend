@@ -31,4 +31,8 @@ class Course extends Model
         return $this->hasMany(JoinRequest::class);
     }
 
+    public function submissions()
+    {
+        return $this->hasManyThrough(Submission::class, Assignment::class);
+    }
 }
