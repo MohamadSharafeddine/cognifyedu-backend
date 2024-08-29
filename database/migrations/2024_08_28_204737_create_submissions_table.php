@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('deliverable');
             $table->dateTime('submission_date');
             $table->integer('mark')->nullable();
+            $table->text('teacher_comment')->nullable();
             $table->timestamps();
         });
     }
