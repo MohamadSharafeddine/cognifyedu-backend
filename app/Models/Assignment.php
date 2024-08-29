@@ -26,4 +26,8 @@ class Assignment extends Model
     {
         return $this->hasMany(Submission::class);
     }
+    public function cognitiveScores()
+    {
+        return $this->hasMany(CognitiveScore::class);
+    }
 }
