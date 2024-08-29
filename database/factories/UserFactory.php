@@ -23,6 +23,8 @@ class UserFactory extends Factory
             'address' => $this->faker->address(),
             'profile_picture' => $this->faker->imageUrl(640, 480, 'people', true),
             'parent_id' => $isStudent ? null : $this->faker->optional()->randomElement(User::where('type', 'student')->pluck('id')->toArray()),
+            'parent_name' => $isStudent ? $this->faker->name() : null,
+            'parent_email' => $isStudent ? $this->faker->unique()->safeEmail() : null,
             'remember_token' => Str::random(10),
         ];
     }
