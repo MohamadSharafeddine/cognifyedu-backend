@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('cognitive_score_id')->constrained('cognitive_scores')->onDelete('cascade');
+            $table->foreignId('behavioral_score_id')->constrained('behavioral_scores')->onDelete('cascade');
             $table->timestamps();
         });
     }
