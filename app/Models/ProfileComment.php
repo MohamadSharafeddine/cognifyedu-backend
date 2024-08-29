@@ -14,4 +14,9 @@ class ProfileComment extends Model
         'teacher_id',
         'comment',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
 }
