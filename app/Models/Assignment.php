@@ -21,4 +21,9 @@ class Assignment extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
+    }
 }
