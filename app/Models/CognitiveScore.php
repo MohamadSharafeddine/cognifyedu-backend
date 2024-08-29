@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class CognitiveScore extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'assignment_id',
+        'submission_id',
+        'critical_thinking',
+        'logical_thinking',
+        'linguistic_ability',
+        'memory',
+        'attention_to_detail',
+    ];
 }
