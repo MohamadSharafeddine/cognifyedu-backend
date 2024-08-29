@@ -19,4 +19,9 @@ class Insight extends Model
         'recommendations',
         'progress_tracking',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
 }
