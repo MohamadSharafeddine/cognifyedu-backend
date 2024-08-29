@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('logical_thinking');
             $table->integer('linguistic_ability');
             $table->integer('memory');
+            $table->integer('attention_to_detail');
             $table->timestamps();
         });
     }
