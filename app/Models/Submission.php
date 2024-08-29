@@ -27,4 +27,9 @@ class Submission extends Model
     {
         return $this->belongsTo(User::class, 'student_id');
     }
+
+    public function cognitiveScores()
+    {
+        return $this->hasOne(CognitiveScore::class);
+    }
 }
