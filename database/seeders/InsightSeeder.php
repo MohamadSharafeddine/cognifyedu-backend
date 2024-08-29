@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Insight;
 
 class InsightSeeder extends Seeder
 {
@@ -12,6 +12,6 @@ class InsightSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Insight::factory()->count(30)->create();
     }
 }
