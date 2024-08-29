@@ -18,4 +18,9 @@ class Submission extends Model
         'teacher_comment',
     ];
 
+    public function assignment()
+    {
+        return $this->belongsTo(Assignment::class);
+    }
+
 }
