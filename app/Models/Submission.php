@@ -32,4 +32,9 @@ class Submission extends Model
     {
         return $this->hasOne(CognitiveScore::class);
     }
+
+    public function behavioralScores()
+    {
+        return $this->hasOne(BehavioralScore::class);
+    }
 }
