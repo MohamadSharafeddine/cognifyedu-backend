@@ -29,4 +29,9 @@ class Insight extends Model
     {
         return $this->belongsTo(CognitiveScore::class);
     }
+
+    public function behavioralScore()
+    {
+        return $this->belongsTo(BehavioralScore::class);
+    }
 }
