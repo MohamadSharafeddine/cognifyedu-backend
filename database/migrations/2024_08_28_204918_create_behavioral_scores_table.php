@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('engagement');
             $table->integer('time_management');
             $table->integer('adaptability');
+            $table->integer('collaboration');
             $table->timestamps();
         });
     }
