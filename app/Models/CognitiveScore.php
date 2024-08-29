@@ -23,4 +23,9 @@ class CognitiveScore extends Model
     {
         return $this->belongsTo(Assignment::class);
     }
+
+    public function submission()
+    {
+        return $this->belongsTo(Submission::class);
+    }
 }
