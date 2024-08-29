@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('assignment_id')->constrained('assignments')->onDelete('cascade');
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
+            $table->text('deliverable');
             $table->timestamps();
         });
     }
