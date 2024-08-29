@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('summary')->nullable();
             $table->text('detailed_analysis')->nullable();
             $table->text('recommendations')->nullable();
+            $table->text('progress_tracking')->nullable();
             $table->timestamps();
         });
     }
