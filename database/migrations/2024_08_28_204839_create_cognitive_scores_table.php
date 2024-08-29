@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('submission_id')->constrained('submissions')->onDelete('cascade');
             $table->integer('critical_thinking');
             $table->integer('logical_thinking');
+            $table->integer('linguistic_ability');
             $table->timestamps();
         });
     }
