@@ -16,4 +16,9 @@ class Assignment extends Model
         'attachment',
         'due_date',
     ];
+    
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }
