@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
             $table->text('deliverable');
             $table->dateTime('submission_date');
+            $table->integer('mark')->nullable();
             $table->timestamps();
         });
     }
