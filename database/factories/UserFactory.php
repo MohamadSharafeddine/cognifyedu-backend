@@ -18,11 +18,12 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => bcrypt('password'),
-            'remember_token' => Str::random(10),
             'type' => $isStudent ? 'student' : $this->faker->randomElement(['teacher', 'admin']),
             'date_of_birth' => $this->faker->date(),
             'address' => $this->faker->address(),
+            'profile_picture' => $this->faker->imageUrl(640, 480, 'people', true),
             'parent_id' => $isStudent ? null : $this->faker->optional()->randomElement(User::where('type', 'student')->pluck('id')->toArray()),
+            'remember_token' => Str::random(10),
         ];
     }
 }
