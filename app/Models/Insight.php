@@ -34,4 +34,9 @@ class Insight extends Model
     {
         return $this->belongsTo(BehavioralScore::class);
     }
+
+    public function profileComment()
+    {
+        return $this->belongsTo(ProfileComment::class, 'profile_comment_id');
+    }
 }
