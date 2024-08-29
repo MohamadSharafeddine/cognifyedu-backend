@@ -20,9 +20,15 @@ class Course extends Model
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
-    
+
     public function assignments()
     {
         return $this->hasMany(Assignment::class);
     }
+
+    public function joinRequests()
+    {
+        return $this->hasMany(JoinRequest::class);
+    }
+
 }
