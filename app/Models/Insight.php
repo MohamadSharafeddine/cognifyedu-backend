@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Insight extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'student_id',
+        'cognitive_score_id',
+        'behavioral_score_id',
+        'profile_comment_id',
+        'summary',
+        'detailed_analysis',
+        'recommendations',
+        'progress_tracking',
+    ];
 }
