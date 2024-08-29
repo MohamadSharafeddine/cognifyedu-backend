@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('profile_comments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
