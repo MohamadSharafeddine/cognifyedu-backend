@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\BehavioralScore;
 
 class BehavioralScoreSeeder extends Seeder
 {
@@ -12,6 +12,6 @@ class BehavioralScoreSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        BehavioralScore::factory()->count(50)->create(); 
     }
 }

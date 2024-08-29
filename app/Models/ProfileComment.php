@@ -1,27 +1,26 @@
 <?php
 
-namespace App\Models;
+namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\ProfileComment;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProfileComment extends Model
+class ProfileCommentFactory extends Factory
 {
-    use HasFactory;
+    protected $model = ProfileComment::class;
 
-    protected $fillable = [
-        'student_id',
-        'teacher_id',
-        'comment',
-    ];
-
-    public function student()
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
     {
-        return $this->belongsTo(User::class, 'student_id');
-    }
-
-    public function teacher()
-    {
-        return $this->belongsTo(User::class, 'teacher_id');
+        return [
+            'student_id' => User::where('type', 'student')->inRandomOrder()->first()->id,
+            'teacher_id' => User::where('type', 'teacher')->inRandomOrder()->first()->id,
+            'comment' => $this->faker->sentence(),
+        ];
     }
 }
