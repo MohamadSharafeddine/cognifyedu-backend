@@ -10,7 +10,12 @@ class UserFactory extends Factory
 {
     protected $model = User::class;
 
-    public function definition()
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
     {
         $isStudent = $this->faker->randomElement(['teacher', 'student', 'admin']) === 'student';
     
@@ -18,13 +23,11 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => bcrypt('password'),
-            'type' => $isStudent ? 'student' : $this->faker->randomElement(['teacher', 'admin']),
+            'type' => $isStudent ? 'student' : $this->faker->randomElement(['teacher', 'admin', 'parent']),
             'date_of_birth' => $this->faker->date(),
             'address' => $this->faker->address(),
             'profile_picture' => $this->faker->imageUrl(640, 480, 'people', true),
-            'parent_id' => $isStudent ? null : $this->faker->optional()->randomElement(User::where('type', 'student')->pluck('id')->toArray()),
-            'parent_name' => $isStudent ? $this->faker->name() : null,
-            'parent_email' => $isStudent ? $this->faker->unique()->safeEmail() : null,
+            'parent_id' => $isStudent ? User::where('type', 'parent')->inRandomOrder()->first()->id : null,
             'remember_token' => Str::random(10),
         ];
     }
