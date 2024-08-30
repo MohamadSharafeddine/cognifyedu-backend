@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('profile_picture')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->string('parent_name')->nullable();
-            $table->string('parent_email')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
