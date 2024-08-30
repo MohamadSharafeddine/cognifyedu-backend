@@ -17,17 +17,19 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $isStudent = $this->faker->randomElement(['teacher', 'student', 'admin']) === 'student';
-    
+        $userType = $this->faker->randomElement(['teacher', 'student', 'parent', 'admin']);
+        $isStudent = $userType === 'student';
+        $parent = $isStudent ? User::where('type', 'parent')->inRandomOrder()->first() : null;
+
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => bcrypt('password'),
-            'type' => $isStudent ? 'student' : $this->faker->randomElement(['teacher', 'admin', 'parent']),
+            'type' => $userType,
             'date_of_birth' => $this->faker->date(),
             'address' => $this->faker->address(),
             'profile_picture' => $this->faker->imageUrl(640, 480, 'people', true),
-            'parent_id' => $isStudent ? User::where('type', 'parent')->inRandomOrder()->first()->id : null,
+            'parent_id' => $parent ? $parent->id : null,
             'remember_token' => Str::random(10),
         ];
     }
