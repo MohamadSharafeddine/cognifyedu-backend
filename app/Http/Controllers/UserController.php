@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
@@ -30,8 +30,12 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']); // Ensure the password is hashed
+        $user = User::create($data);
+        return response()->json($user, 201);
     }
+    
 
     /**
      * Display the specified resource.
