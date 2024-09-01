@@ -22,14 +22,14 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            // 'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            // 'type' => 'required|in:teacher,student,parent,admin',
-            'date_of_birth' => 'nullable|date',
-            'address' => 'nullable|string|max:255',
-            'profile_picture' => 'nullable|string|max:255',
-            'parent_id' => 'nullable|exists:users,id',
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|string|email|max:255|unique:users',
+            'password' => 'sometimes|string|min:8',
+            'type' => 'sometimes|in:teacher,student,parent,admin',
+            'date_of_birth' => 'sometimes|date',
+            'address' => 'sometimes|string|max:255',
+            'profile_picture' => 'sometimes|string|max:255',
+            'parent_id' => 'sometimes|exists:users,id',
         ];
     }
 }
