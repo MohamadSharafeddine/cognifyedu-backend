@@ -80,9 +80,9 @@ class UserController extends Controller
     /**
      * Handle user login and return a JWT token.
      */
-    public function login(Request $request)
+    public function login()
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = request(['email', 'password']);
 
         if (! $token = JWTAuth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
