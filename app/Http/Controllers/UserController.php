@@ -64,7 +64,13 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->validated());
+        $data = $request->validated();
+
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+        
+        $user->update($data);
         return response()->json($user);
     }
 
