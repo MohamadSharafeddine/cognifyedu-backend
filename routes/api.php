@@ -24,6 +24,7 @@ Route::group([
     'controller' => UserController::class], function () {
     Route::get('/', 'index');
     Route::get('/{user}', [UserController::class, 'show']);
-    Route::post('/logout', [UserController::class, 'logout']);
+    Route::put('/{user}', [UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
+    Route::post('/logout', [UserController::class, 'logout']);
 });
