@@ -37,7 +37,6 @@ class UserController extends Controller
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
 
-        // Automatically log in the user and generate a JWT token
         $token = JWTAuth::fromUser($user);
 
         return response()->json(['user' => $user, 'token' => $token], 201);
@@ -75,7 +74,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Successfully deleted user'], 200);
     }
 
     /**
