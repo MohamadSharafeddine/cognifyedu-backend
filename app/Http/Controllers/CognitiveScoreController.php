@@ -55,7 +55,8 @@ class CognitiveScoreController extends Controller
      */
     public function update(UpdateCognitiveScoreRequest $request, CognitiveScore $cognitiveScore)
     {
-        //
+        $cognitiveScore->update($request->validated());
+        return response()->json($cognitiveScore);
     }
 
     /**
