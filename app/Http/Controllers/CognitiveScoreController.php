@@ -64,6 +64,7 @@ class CognitiveScoreController extends Controller
      */
     public function destroy(CognitiveScore $cognitiveScore)
     {
-        //
+        $cognitiveScore->delete();
+        return response()->json(['message' => 'Successfully deleted cognitive score'], 200);
     }
 }
