@@ -30,3 +30,9 @@ Route::group([
     Route::post('/logout',  'logout');
 });
 
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'courses',
+    'controller' => CourseController::class
+], function () {
+});
