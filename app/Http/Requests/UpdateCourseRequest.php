@@ -24,7 +24,6 @@ class UpdateCourseRequest extends FormRequest
         return [
             'name' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
-            'teacher_id' => 'sometimes|exists:users,id'
         ];
     }
 }
