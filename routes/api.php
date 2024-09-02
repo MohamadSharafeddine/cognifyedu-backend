@@ -61,4 +61,5 @@ Route::group([
     'prefix' => 'submissions',
     'controller' => SubmissionController::class
 ], function () {
+    Route::get('/', 'index');
 });
