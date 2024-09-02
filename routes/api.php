@@ -39,4 +39,5 @@ Route::group([
     Route::post('/', 'store');
     Route::get('/{course}', 'show');
     Route::put('/{course}', 'update');
+    Route::delete('/{course}', 'destroy');
 });
