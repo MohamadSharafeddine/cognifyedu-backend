@@ -62,4 +62,5 @@ Route::group([
     'controller' => SubmissionController::class
 ], function () {
     Route::get('/', 'index');
+    Route::post('/', 'store');
 });
