@@ -8,6 +8,14 @@ use App\Http\Requests\UpdateCourseRequest;
 
 class CourseController extends Controller
 {
+    protected function generateCourseCode(): string
+    {
+        do {
+            $code = strtoupper(substr(md5(microtime()), 0, 8));
+        } while (Course::where('code', $code)->exists());
+
+        return $code;
+    }
     /**
      * Display a listing of the resource.
      */
