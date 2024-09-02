@@ -91,4 +91,5 @@ Route::group([
     Route::post('/', 'store');
     Route::get('/{profileComment}', 'show');
     Route::put('/{profileComment}', 'update');
+    Route::delete('/{profileComment}', 'destroy');
 });
