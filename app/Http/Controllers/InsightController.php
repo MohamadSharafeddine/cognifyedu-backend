@@ -55,7 +55,8 @@ class InsightController extends Controller
      */
     public function update(UpdateInsightRequest $request, Insight $insight)
     {
-        //
+        $insight->update($request->validated());
+        return response()->json($insight);
     }
 
     /**
