@@ -26,9 +26,9 @@ class Course extends Model
         return $this->hasMany(Assignment::class);
     }
 
-    public function joinRequests()
+    public function CourseStudents()
     {
-        return $this->hasMany(JoinRequest::class);
+        return $this->hasMany(CourseStudent::class);
     }
 
     public function submissions()

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('join_requests', function (Blueprint $table) {
+        Schema::create('course_students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
-            $table->enum('status', ['pending', 'approved', 'declined'])->default('pending');
+            // $table->enum('status', ['pending', 'approved', 'declined'])->default('pending');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('join_requests');
+        Schema::dropIfExists('course_students');
     }
 };

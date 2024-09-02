@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\JoinRequest;
+use App\Models\CourseStudent;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class JoinRequestPolicy
+class CourseStudentPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class JoinRequestPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, JoinRequest $joinRequest): bool
+    public function view(User $user, CourseStudent $CourseStudent): bool
     {
         //
     }
@@ -35,7 +35,7 @@ class JoinRequestPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, JoinRequest $joinRequest): bool
+    public function update(User $user, CourseStudent $CourseStudent): bool
     {
         //
     }
@@ -43,7 +43,7 @@ class JoinRequestPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, JoinRequest $joinRequest): bool
+    public function delete(User $user, CourseStudent $CourseStudent): bool
     {
         //
     }
@@ -51,7 +51,7 @@ class JoinRequestPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, JoinRequest $joinRequest): bool
+    public function restore(User $user, CourseStudent $CourseStudent): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class JoinRequestPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, JoinRequest $joinRequest): bool
+    public function forceDelete(User $user, CourseStudent $CourseStudent): bool
     {
         //
     }

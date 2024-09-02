@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JoinRequest;
-use App\Http\Requests\StoreJoinRequestRequest;
-use App\Http\Requests\UpdateJoinRequestRequest;
+use App\Models\CourseStudent;
+use App\Http\Requests\StoreCourseStudentRequest;
+use App\Http\Requests\UpdateCourseStudentRequest;
 
-class JoinRequestController extends Controller
+class CourseStudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class JoinRequestController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreJoinRequestRequest $request)
+    public function store(StoreCourseStudentRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class JoinRequestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(JoinRequest $joinRequest)
+    public function show(CourseStudent $CourseStudent)
     {
         //
     }
@@ -43,7 +43,7 @@ class JoinRequestController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(JoinRequest $joinRequest)
+    public function edit(CourseStudent $CourseStudent)
     {
         //
     }
@@ -51,7 +51,7 @@ class JoinRequestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateJoinRequestRequest $request, JoinRequest $joinRequest)
+    public function update(UpdateCourseStudentRequest $request, CourseStudent $CourseStudent)
     {
         //
     }
@@ -59,7 +59,7 @@ class JoinRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(JoinRequest $joinRequest)
+    public function destroy(CourseStudent $CourseStudent)
     {
         //
     }
