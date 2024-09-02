@@ -39,7 +39,7 @@ class BehavioralScoreController extends Controller
      */
     public function show(BehavioralScore $behavioralScore)
     {
-        //
+        return response()->json($behavioralScore);
     }
 
     /**
