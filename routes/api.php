@@ -105,7 +105,7 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{cognitiveScore}', 'show');
-    Route::put('/{cognitiveScore}', 'update');
+    Route::post('/{cognitiveScore}', 'update');
     Route::delete('/{cognitiveScore}', 'destroy');
 });
 
@@ -117,7 +117,7 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{behavioralScore}', 'show');
-    Route::put('/{behavioralScore}', 'update');
+    Route::post('/{behavioralScore}', 'update');
     Route::delete('/{behavioralScore}', 'destroy');
 });
 
@@ -129,6 +129,6 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{insight}', 'show');
-    Route::put('/{insight}', 'update');
+    Route::post('/{insight}', 'update');
     Route::delete('/{insight}', 'destroy');
 });
