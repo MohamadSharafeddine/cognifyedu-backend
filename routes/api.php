@@ -36,4 +36,5 @@ Route::group([
     'controller' => CourseController::class
 ], function () {
     Route::get('/', 'index');
+    Route::post('/', 'store');
 });
