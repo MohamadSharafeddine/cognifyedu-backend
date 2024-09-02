@@ -22,7 +22,10 @@ class UpdateCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'sometimes|string|max:255',
+            'code' => 'sometimes|string|max:50|unique:courses,code,' . $this->course->id,
+            'description' => 'nullable|string',
+            'teacher_id' => 'sometimes|exists:users,id'
         ];
     }
 }
