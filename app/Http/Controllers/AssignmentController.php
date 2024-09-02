@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Assignment;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Http\Requests\UpdateAssignmentRequest;
+use Illuminate\Support\Facades\Storage;
 
 class AssignmentController extends Controller
 {
@@ -30,16 +31,7 @@ class AssignmentController extends Controller
      */
     public function store(StoreAssignmentRequest $request)
     {
-        $data = $request->validated();
-
-        if ($request->hasFile('attachment')) {
-            $file = $request->file('attachment');
-            $filePath = $file->store('assignments', 'public');
-        }
-
-        $data['attachment'] = $filePath;
-        $assignment = Assignment::create($data);   
-
+        $assignment = Assignment::create($request->validated());
         return response()->json($assignment, 201);
     }
 
@@ -64,7 +56,18 @@ class AssignmentController extends Controller
      */
     public function update(UpdateAssignmentRequest $request, Assignment $assignment)
     {
-        $assignment->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('attachment')) {
+            if ($assignment->attachment && Storage::exists($assignment->attachment)) {
+                Storage::delete($assignment->attachment);
+            }
+
+            $data['attachment'] = $request->file('attachment')->store('assignments', 'public');
+        }
+
+        $assignment->update($data);
+
         return response()->json($assignment);
     }
 

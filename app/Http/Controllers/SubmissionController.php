@@ -62,9 +62,26 @@ class SubmissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function update(UpdateSubmissionRequest $request, Submission $submission)
+    // {   
+    //     $submission->update($request->validated());
+    //     return response()->json($submission);
+    // }
+
     public function update(UpdateSubmissionRequest $request, Submission $submission)
-    {   
-        $submission->update($request->validated());
+    {
+        $data = $request->validated();
+
+        if ($request->hasFile('deliverable')) {
+            if ($submission->deliverable && Storage::exists($submission->deliverable)) {
+                Storage::delete($submission->deliverable);
+            }
+
+            $data['deliverable'] = $request->file('deliverable')->store('submissions', 'public');
+        }
+
+        $submission->update($data);
+
         return response()->json($submission);
     }
 
