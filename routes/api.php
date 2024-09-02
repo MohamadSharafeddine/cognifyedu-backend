@@ -55,3 +55,10 @@ Route::group([
     Route::put('/{assignment}', 'update');
     Route::delete('/{assignment}', 'destroy');
 });
+
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'submissions',
+    'controller' => SubmissionController::class
+], function () {
+});
