@@ -49,4 +49,5 @@ Route::group([
     'controller' => AssignmentController::class
 ], function () {
     Route::get('/', 'index');
+    Route::post('/', 'store');
 });
