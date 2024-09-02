@@ -30,7 +30,8 @@ class BehavioralScoreController extends Controller
      */
     public function store(StoreBehavioralScoreRequest $request)
     {
-        //
+        $behavioralScore = BehavioralScore::create($request->validated());
+        return response()->json($behavioralScore, 201);
     }
 
     /**
