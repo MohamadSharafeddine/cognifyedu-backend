@@ -87,4 +87,5 @@ Route::group([
     'prefix' => 'profile-comments',
     'controller' => ProfileCommentController::class
 ], function () {
+    Route::get('/', 'index');
 });
