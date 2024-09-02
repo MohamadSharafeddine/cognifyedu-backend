@@ -130,4 +130,5 @@ Route::group([
     Route::post('/', 'store');
     Route::get('/{insight}', 'show');
     Route::put('/{insight}', 'update');
+    Route::delete('/{insight}', 'destroy');
 });
