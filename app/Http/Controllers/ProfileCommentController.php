@@ -30,7 +30,8 @@ class ProfileCommentController extends Controller
      */
     public function store(StoreProfileCommentRequest $request)
     {
-        //
+        $profileComment = ProfileComment::create($request->validated());
+        return response()->json($profileComment, 201);
     }
 
     /**
