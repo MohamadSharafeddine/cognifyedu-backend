@@ -48,4 +48,5 @@ Route::group([
     'prefix' => 'assignments',
     'controller' => AssignmentController::class
 ], function () {
+    Route::get('/', 'index');
 });
