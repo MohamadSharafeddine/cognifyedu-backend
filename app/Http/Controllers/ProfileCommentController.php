@@ -39,7 +39,7 @@ class ProfileCommentController extends Controller
      */
     public function show(ProfileComment $profileComment)
     {
-        //
+        return response()->json($profileComment);
     }
 
     /**
