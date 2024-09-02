@@ -77,4 +77,5 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{courseStudent}', 'show');
+    Route::put('/{courseStudent}', 'update');
 });
