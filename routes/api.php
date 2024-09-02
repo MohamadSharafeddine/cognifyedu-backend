@@ -113,4 +113,5 @@ Route::group([
     'controller' => BehavioralScoreController::class
 ], function () {
     Route::get('/', 'index');
+    Route::post('/', 'store');
 });
