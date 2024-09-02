@@ -20,7 +20,7 @@ class SubmissionFactory extends Factory
     public function definition(): array
     {
         $filePath = 'submissions/' . $this->faker->unique()->word . '.txt';
-        Storage::put($filePath, $this->faker->text());
+        Storage::disk('public')->put($filePath, $this->faker->text());
         return [
             'assignment_id' => Assignment::inRandomOrder()->first()->id, 
             'student_id' => User::where('type', 'student')->inRandomOrder()->first()->id,
