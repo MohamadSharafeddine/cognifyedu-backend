@@ -40,7 +40,7 @@ class AssignmentController extends Controller
      */
     public function show(Assignment $assignment)
     {
-        //
+        return response()->json($assignment);
     }
 
     /**
