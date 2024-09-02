@@ -78,4 +78,5 @@ Route::group([
     Route::post('/', 'store');
     Route::get('/{courseStudent}', 'show');
     Route::put('/{courseStudent}', 'update');
+    Route::delete('/{courseStudent}', 'destroy');
 });
