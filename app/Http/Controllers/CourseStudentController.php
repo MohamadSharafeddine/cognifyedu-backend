@@ -45,7 +45,7 @@ class CourseStudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CourseStudent $CourseStudent)
+    public function edit(CourseStudent $courseStudent)
     {
         //
     }
@@ -62,8 +62,9 @@ class CourseStudentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CourseStudent $CourseStudent)
+    public function destroy(CourseStudent $courseStudent)
     {
-        //
+        $courseStudent->delete();
+        return response()->json(['message' => 'Successfully removed student from course'], 200);
     }
 }
