@@ -22,7 +22,8 @@ class UpdateCourseStudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'student_id' => 'sometimes|exists:users,id',
+            'course_id' => 'sometimes|exists:courses,id',
         ];
     }
 }
