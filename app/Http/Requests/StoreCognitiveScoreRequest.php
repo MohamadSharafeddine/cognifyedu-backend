@@ -24,11 +24,11 @@ class StoreCognitiveScoreRequest extends FormRequest
         return [
             'assignment_id' => 'required|exists:assignments,id',
             'submission_id' => 'required|exists:submissions,id',
-            'critical_thinking' => 'required|integer|min:0|max:100',
-            'logical_thinking' => 'required|integer|min:0|max:100',
-            'linguistic_ability' => 'required|integer|min:0|max:100',
-            'memory' => 'required|integer|min:0|max:100',
-            'attention_to_detail' => 'required|integer|min:0|max:100',
+            'critical_thinking' => 'nullable|integer|min:0|max:100',
+            'logical_thinking' => 'nullable|integer|min:0|max:100',
+            'linguistic_ability' => 'nullable|integer|min:0|max:100',
+            'memory' => 'nullable|integer|min:0|max:100',
+            'attention_to_detail' => 'nullable|integer|min:0|max:100',
         ];
     }
 }

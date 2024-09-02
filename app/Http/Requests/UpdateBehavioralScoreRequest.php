@@ -22,13 +22,13 @@ class UpdateBehavioralScoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'assignment_id' => 'required|exists:assignments,id',
-            'submission_id' => 'required|exists:submissions,id',
-            'engagement' => 'required|integer|min:0|max:100',
-            'time_management' => 'required|integer|min:0|max:100',
-            'adaptability' => 'required|integer|min:0|max:100',
-            'collaboration' => 'required|integer|min:0|max:100',
-            'focus' => 'required|integer|min:0|max:100',
+            'assignment_id' => 'sometimes|exists:assignments,id',
+            'submission_id' => 'sometimes|exists:submissions,id',
+            'engagement' => 'sometimes|integer|min:0|max:100',
+            'time_management' => 'sometimes|integer|min:0|max:100',
+            'adaptability' => 'sometimes|integer|min:0|max:100',
+            'collaboration' => 'sometimes|integer|min:0|max:100',
+            'focus' => 'sometimes|integer|min:0|max:100',
         ];
     }
 }
