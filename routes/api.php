@@ -126,4 +126,5 @@ Route::group([
     'prefix' => 'insights',
     'controller' => InsightController::class
 ], function () {
+    Route::get('/', 'index');
 });
