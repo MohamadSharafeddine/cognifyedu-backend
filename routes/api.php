@@ -103,4 +103,5 @@ Route::group([
     Route::post('/', 'store');
     Route::get('/{cognitiveScore}', 'show');
     Route::put('/{cognitiveScore}', 'update');
+    Route::delete('/{cognitiveScore}', 'destroy');
 });
