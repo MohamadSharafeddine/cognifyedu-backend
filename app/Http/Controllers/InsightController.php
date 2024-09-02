@@ -30,7 +30,8 @@ class InsightController extends Controller
      */
     public function store(StoreInsightRequest $request)
     {
-        //
+        $insight = Insight::create($request->all());
+        return response()->json($insight);
     }
 
     /**
