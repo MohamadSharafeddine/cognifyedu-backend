@@ -65,4 +65,5 @@ Route::group([
     Route::post('/', 'store');
     Route::get('/{submission}', 'show');
     Route::put('/{submission}', 'update');
+    Route::delete('/{submission}', 'destroy');
 });
