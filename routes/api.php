@@ -35,4 +35,5 @@ Route::group([
     'prefix' => 'courses',
     'controller' => CourseController::class
 ], function () {
+    Route::get('/', 'index');
 });
