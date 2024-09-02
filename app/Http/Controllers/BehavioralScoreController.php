@@ -64,6 +64,7 @@ class BehavioralScoreController extends Controller
      */
     public function destroy(BehavioralScore $behavioralScore)
     {
-        //
+        $behavioralScore->delete();
+        return response()->json(['message' => 'Successfully deleted behavioral score'], 200);
     }
 }
