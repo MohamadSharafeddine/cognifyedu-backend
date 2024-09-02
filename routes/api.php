@@ -116,4 +116,5 @@ Route::group([
     Route::post('/', 'store');
     Route::get('/{behavioralScore}', 'show');
     Route::put('/{behavioralScore}', 'update');
+    Route::delete('/{behavioralScore}', 'destroy');
 });
