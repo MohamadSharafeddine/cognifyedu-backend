@@ -64,7 +64,7 @@ class SubmissionController extends Controller
      */
     public function update(UpdateSubmissionRequest $request, Submission $submission)
     {
-        //
+        return response()->json($submission);
     }
 
     /**
