@@ -9,6 +9,7 @@ use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\CourseStudentController;
 use App\Http\Controllers\ProfileCommentController;
 use App\Http\Controllers\CognitiveScoreController;
+use App\Http\Controllers\BehavioralScoreController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -104,4 +105,11 @@ Route::group([
     Route::get('/{cognitiveScore}', 'show');
     Route::put('/{cognitiveScore}', 'update');
     Route::delete('/{cognitiveScore}', 'destroy');
+});
+
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'behavioral-scores',
+    'controller' => BehavioralScoreController::class
+], function () {
 });
