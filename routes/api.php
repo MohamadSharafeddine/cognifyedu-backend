@@ -7,6 +7,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\CourseStudentController;
+use App\Http\Controllers\ProfileCommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,4 +80,11 @@ Route::group([
     Route::get('/{courseStudent}', 'show');
     Route::post('/{courseStudent}', 'update');
     Route::delete('/{courseStudent}', 'destroy');
+});
+
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'profile-comments',
+    'controller' => ProfileCommentController::class
+], function () {
 });
