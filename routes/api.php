@@ -99,4 +99,5 @@ Route::group([
     'prefix' => 'cognitive-scores',
     'controller' => CognitiveScoreController::class
 ], function () {
+    Route::get('/', 'index');
 });
