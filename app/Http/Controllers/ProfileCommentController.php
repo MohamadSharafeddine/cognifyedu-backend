@@ -64,6 +64,7 @@ class ProfileCommentController extends Controller
      */
     public function destroy(ProfileComment $profileComment)
     {
-        //
+        $profileComment->delete();
+        return response()->json(['message' => 'Successfully deleted profile comment'], 200);
     }
 }
