@@ -27,7 +27,7 @@ Route::group([
     'controller' => UserController::class], function () {
     Route::get('/', 'index');
     Route::get('/{user}', 'show');
-    Route::put('/{user}','update');
+    Route::post('/{user}','update');
     Route::delete('/{user}', 'destroy');
     Route::post('/logout',  'logout');
 });
@@ -40,7 +40,7 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{course}', 'show');
-    Route::put('/{course}', 'update');
+    Route::post('/{course}', 'update');
     Route::delete('/{course}', 'destroy');
 });
 
@@ -52,7 +52,7 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{assignment}', 'show');
-    Route::put('/{assignment}', 'update');
+    Route::post('/{assignment}', 'update');
     Route::delete('/{assignment}', 'destroy');
 });
 
@@ -64,6 +64,6 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{submission}', 'show');
-    Route::put('/{submission}', 'update');
+    Route::post('/{submission}', 'update');
     Route::delete('/{submission}', 'destroy');
 });
