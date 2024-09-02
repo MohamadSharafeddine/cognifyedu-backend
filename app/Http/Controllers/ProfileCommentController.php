@@ -55,7 +55,8 @@ class ProfileCommentController extends Controller
      */
     public function update(UpdateProfileCommentRequest $request, ProfileComment $profileComment)
     {
-        //
+        $profileComment->update($request->validated());
+        return response()->json($profileComment);
     }
 
     /**
