@@ -25,7 +25,7 @@ class UpdateAssignmentRequest extends FormRequest
             'course_id' => 'sometimes|exists:courses,id',
             'title' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
-            'attachment' => 'nullable|string',
+            'attachment' => 'sometimes|file|mimes:txt|max:10240',
             'due_date' => 'sometimes|date',
         ];
     }
