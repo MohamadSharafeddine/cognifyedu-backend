@@ -76,4 +76,5 @@ Route::group([
 ], function () {
     Route::get('/', 'index');
     Route::post('/', 'store');
+    Route::get('/{courseStudent}', 'show');
 });
