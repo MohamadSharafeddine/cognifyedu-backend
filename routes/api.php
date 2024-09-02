@@ -115,4 +115,5 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{behavioralScore}', 'show');
+    Route::put('/{behavioralScore}', 'update');
 });
