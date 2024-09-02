@@ -38,4 +38,5 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{course}', 'show');
+    Route::put('/{course}', 'update');
 });
