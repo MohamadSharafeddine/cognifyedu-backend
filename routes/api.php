@@ -127,4 +127,5 @@ Route::group([
     'controller' => InsightController::class
 ], function () {
     Route::get('/', 'index');
+    Route::post('/', 'store');
 });
