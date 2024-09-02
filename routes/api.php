@@ -88,4 +88,5 @@ Route::group([
     'controller' => ProfileCommentController::class
 ], function () {
     Route::get('/', 'index');
+    Route::post('/', 'store');
 });
