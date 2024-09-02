@@ -30,7 +30,8 @@ class CourseStudentController extends Controller
      */
     public function store(StoreCourseStudentRequest $request)
     {
-        //
+        $courseStudent = CourseStudent::create($request->validated());
+        return response()->json($courseStudent, 201);
     }
 
     /**
