@@ -30,7 +30,8 @@ class CognitiveScoreController extends Controller
      */
     public function store(StoreCognitiveScoreRequest $request)
     {
-        //
+        $score = CognitiveScore::create($request->validated());
+        return response()->json($score, 201);
     }
 
     /**
