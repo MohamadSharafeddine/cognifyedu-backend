@@ -23,7 +23,6 @@ class StoreCourseRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'code' => 'required|string|max:50|unique:courses',
             'description' => 'nullable|string',
             'teacher_id' => 'required|exists:users,id',
         ];
