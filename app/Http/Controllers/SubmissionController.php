@@ -63,7 +63,8 @@ class SubmissionController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateSubmissionRequest $request, Submission $submission)
-    {
+    {   
+        $submission->update($request->validated());
         return response()->json($submission);
     }
 
