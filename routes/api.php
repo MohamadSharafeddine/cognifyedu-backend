@@ -100,4 +100,5 @@ Route::group([
     'controller' => CognitiveScoreController::class
 ], function () {
     Route::get('/', 'index');
+    Route::post('/', 'store');
 });
