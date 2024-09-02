@@ -22,7 +22,12 @@ class UpdateSubmissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'assignment_id' => 'sometimes|exists:assignments,id',
+            'student_id' => 'sometimes|exists:users,id',
+            'deliverable' => 'sometimes|file|mimes:txt|max:10240',
+            'submission_date' => 'sometimes|date',
+            'mark' => 'nullable|integer|min:0|max:100',
+            'teacher_comment' => 'nullable|string',
         ];
     }
 }
