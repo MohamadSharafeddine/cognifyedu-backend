@@ -42,3 +42,10 @@ Route::group([
     Route::put('/{course}', 'update');
     Route::delete('/{course}', 'destroy');
 });
+
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'assignments',
+    'controller' => AssignmentController::class
+], function () {
+});
