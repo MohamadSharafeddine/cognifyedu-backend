@@ -13,7 +13,8 @@ class ProfileCommentController extends Controller
      */
     public function index()
     {
-        //
+        $profileComments = ProfileComment::all();
+        return response()->json($profileComments);
     }
 
     /**
