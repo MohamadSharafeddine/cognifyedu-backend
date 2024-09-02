@@ -112,4 +112,5 @@ Route::group([
     'prefix' => 'behavioral-scores',
     'controller' => BehavioralScoreController::class
 ], function () {
+    Route::get('/', 'index');
 });
