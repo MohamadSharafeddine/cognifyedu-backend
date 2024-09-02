@@ -52,4 +52,5 @@ Route::group([
     Route::post('/', 'store');
     Route::get('/{assignment}', 'show');
     Route::put('/{assignment}', 'update');
+    Route::delete('/{assignment}', 'destroy');
 });
