@@ -39,7 +39,7 @@ class InsightController extends Controller
      */
     public function show(Insight $insight)
     {
-        //
+        return response()->json($insight);
     }
 
     /**
