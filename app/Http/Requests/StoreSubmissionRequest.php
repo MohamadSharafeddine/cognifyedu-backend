@@ -22,7 +22,12 @@ class StoreSubmissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'assignment_id' => 'required|exists:assignments,id',
+            'student_id' => 'required|exists:users,id',
+            'deliverable' => 'required|file|mimes:txt|max:10240',
+            'submission_date' => 'required|date',
+            'mark' => 'nullable|integer|min:0|max:100',
+            'teacher_comment' => 'nullable|string',
         ];
     }
 }
