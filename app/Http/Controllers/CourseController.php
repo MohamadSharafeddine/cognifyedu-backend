@@ -38,10 +38,11 @@ class CourseController extends Controller
      */
     public function store(StoreCourseRequest $request)
     {
-        $course = Course::create($request->validated());
+        $data = $request->validated();
+        $data['code'] = $this->generateCourseCode();
+        $course = Course::create($data);
         return response()->json($course, 201);
     }
-
     /**
      * Display the specified resource.
      */
