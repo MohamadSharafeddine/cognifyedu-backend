@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Submission;
 use App\Http\Requests\StoreSubmissionRequest;
 use App\Http\Requests\UpdateSubmissionRequest;
-
+use Illuminate\Support\Facades\Storage;
 class SubmissionController extends Controller
 {
     /**
@@ -29,9 +29,19 @@ class SubmissionController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreSubmissionRequest $request)
-    {
-        //
+{
+    $data = $request->validated();
+
+    if ($request->hasFile('deliverable')) {
+        $file = $request->file('deliverable');
+        $filePath = $file->store('submissions', 'public');
     }
+
+    $data['deliverable'] = $filePath;
+    $submission = Submission::create($data);
+
+    return response()->json($submission, 201);
+}
 
     /**
      * Display the specified resource.
