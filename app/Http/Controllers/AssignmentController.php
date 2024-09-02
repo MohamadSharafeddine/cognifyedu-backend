@@ -56,7 +56,8 @@ class AssignmentController extends Controller
      */
     public function update(UpdateAssignmentRequest $request, Assignment $assignment)
     {
-        //
+        $assignment->update($request->validated());
+        return response()->json($assignment);
     }
 
     /**
