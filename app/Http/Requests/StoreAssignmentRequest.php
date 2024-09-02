@@ -25,7 +25,7 @@ class StoreAssignmentRequest extends FormRequest
             'course_id' => 'required|exists:courses,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'attachment' => 'nullable|string',
+            'attachment' => 'sometimes|file|mimes:txt|max:10240',
             'due_date' => 'required|date',
         ];
     }

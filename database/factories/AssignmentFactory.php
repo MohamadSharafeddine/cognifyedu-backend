@@ -19,7 +19,7 @@ class AssignmentFactory extends Factory
     public function definition(): array
     {
         $filePath = 'assignments/' . $this->faker->unique()->word . '.txt';
-        Storage::put($filePath, $this->faker->text());
+        Storage::disk('public')->put($filePath, $this->faker->text());
 
         return [
             'course_id' => Course::inRandomOrder()->first()->id,

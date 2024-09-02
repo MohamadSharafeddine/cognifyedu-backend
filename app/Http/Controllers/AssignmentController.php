@@ -31,7 +31,15 @@ class AssignmentController extends Controller
     public function store(StoreAssignmentRequest $request)
     {
         $data = $request->validated();
-        $assignment = Assignment::create($data);
+
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $filePath = $file->store('assignments', 'public');
+        }
+
+        $data['attachment'] = $filePath;
+        $assignment = Assignment::create($data);   
+
         return response()->json($assignment, 201);
     }
 
