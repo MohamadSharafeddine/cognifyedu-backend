@@ -13,7 +13,8 @@ class CognitiveScoreController extends Controller
      */
     public function index()
     {
-        //
+        $cognitiveScores = CognitiveScore::all();
+        return response()->json($cognitiveScores);
     }
 
     /**
