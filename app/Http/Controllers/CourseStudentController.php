@@ -37,9 +37,9 @@ class CourseStudentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CourseStudent $CourseStudent)
+    public function show(CourseStudent $courseStudent)
     {
-        //
+        return response()->json($courseStudent);
     }
 
     /**
