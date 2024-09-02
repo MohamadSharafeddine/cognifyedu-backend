@@ -8,7 +8,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\CourseStudentController;
 use App\Http\Controllers\ProfileCommentController;
-
+use App\Http\Controllers\CognitiveScoreController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -92,4 +92,11 @@ Route::group([
     Route::get('/{profileComment}', 'show');
     Route::post('/{profileComment}', 'update');
     Route::delete('/{profileComment}', 'destroy');
+});
+
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'cognitive-scores',
+    'controller' => CognitiveScoreController::class
+], function () {
 });
