@@ -64,4 +64,5 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{submission}', 'show');
+    Route::put('/{submission}', 'update');
 });
