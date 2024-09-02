@@ -39,7 +39,7 @@ class CognitiveScoreController extends Controller
      */
     public function show(CognitiveScore $cognitiveScore)
     {
-        //
+        return response()->json($cognitiveScore);
     }
 
     /**
