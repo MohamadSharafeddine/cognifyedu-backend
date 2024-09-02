@@ -102,4 +102,5 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{cognitiveScore}', 'show');
+    Route::put('/{cognitiveScore}', 'update');
 });
