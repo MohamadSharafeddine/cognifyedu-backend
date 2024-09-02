@@ -55,7 +55,8 @@ class BehavioralScoreController extends Controller
      */
     public function update(UpdateBehavioralScoreRequest $request, BehavioralScore $behavioralScore)
     {
-        //
+        $behavioralScore->update($request->validated());
+        return response()->json($behavioralScore);
     }
 
     /**
