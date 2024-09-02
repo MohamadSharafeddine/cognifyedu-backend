@@ -64,6 +64,7 @@ class InsightController extends Controller
      */
     public function destroy(Insight $insight)
     {
-        //
+        $insight->delete();
+        return response()->json(['message' => 'Successfully deleted insight'], 200);
     }
 }
