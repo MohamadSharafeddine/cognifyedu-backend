@@ -75,4 +75,5 @@ Route::group([
     'controller' => CourseStudentController::class
 ], function () {
     Route::get('/', 'index');
+    Route::post('/', 'store');
 });
