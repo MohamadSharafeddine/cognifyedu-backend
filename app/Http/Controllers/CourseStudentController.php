@@ -53,9 +53,10 @@ class CourseStudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCourseStudentRequest $request, CourseStudent $CourseStudent)
+    public function update(UpdateCourseStudentRequest $request, CourseStudent $courseStudent)
     {
-        //
+        $courseStudent->update($request->validated());
+        return response()->json($courseStudent);
     }
 
     /**
