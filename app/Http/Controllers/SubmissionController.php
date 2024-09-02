@@ -72,6 +72,7 @@ class SubmissionController extends Controller
      */
     public function destroy(Submission $submission)
     {
-        //
+        $submission->delete();
+        return response()->json(['message' => 'Successfully deleted submission'], 200);
     }
 }
