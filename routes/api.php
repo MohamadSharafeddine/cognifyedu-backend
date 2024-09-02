@@ -51,4 +51,5 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{assignment}', 'show');
+    Route::put('/{assignment}', 'update');
 });
