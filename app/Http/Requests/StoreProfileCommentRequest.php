@@ -22,7 +22,9 @@ class StoreProfileCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'student_id' => 'required|exists:users,id',
+            'teacher_id' => 'required|exists:users,id',
+            'comment' => 'required|string',
         ];
     }
 }
