@@ -13,7 +13,8 @@ class InsightController extends Controller
      */
     public function index()
     {
-        //
+        $insights = Insight::all();
+        return response()->json($insights);
     }
 
     /**
