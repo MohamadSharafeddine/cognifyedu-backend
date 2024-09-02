@@ -13,7 +13,8 @@ class BehavioralScoreController extends Controller
      */
     public function index()
     {
-        //
+        $behavioralScores = BehavioralScore::all();
+        return response()->json($behavioralScores);
     }
 
     /**
