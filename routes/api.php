@@ -129,4 +129,5 @@ Route::group([
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{insight}', 'show');
+    Route::put('/{insight}', 'update');
 });
