@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\CourseStudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,4 +67,12 @@ Route::group([
     Route::get('/{submission}', 'show');
     Route::post('/{submission}', 'update');
     Route::delete('/{submission}', 'destroy');
+});
+
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'course-students',
+    'controller' => CourseStudentController::class
+], function () {
+    Route::get('/', 'index');
 });
