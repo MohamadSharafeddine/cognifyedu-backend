@@ -12,7 +12,6 @@ class CourseStudent extends Model
     protected $fillable = [
         'student_id',
         'course_id',
-        // 'status',
     ];
 
     public function student()
