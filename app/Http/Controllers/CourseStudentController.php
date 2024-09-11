@@ -5,66 +5,57 @@ namespace App\Http\Controllers;
 use App\Models\CourseStudent;
 use App\Http\Requests\StoreCourseStudentRequest;
 use App\Http\Requests\UpdateCourseStudentRequest;
+use Illuminate\Http\JsonResponse;
+use Exception;
 
 class CourseStudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): JsonResponse
     {
-        $courseStudents = CourseStudent::all();
-        return response()->json($courseStudents);
+        try {
+            $courseStudents = CourseStudent::all();
+            return response()->json($courseStudents);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to fetch course-student relationships'], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreCourseStudentRequest $request): JsonResponse
     {
-        //
+        try {
+            $courseStudent = CourseStudent::create($request->validated());
+            return response()->json($courseStudent, 201);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to add student to course'], 500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCourseStudentRequest $request)
+    public function show(CourseStudent $courseStudent): JsonResponse
     {
-        $courseStudent = CourseStudent::create($request->validated());
-        return response()->json($courseStudent, 201);
+        try {
+            return response()->json($courseStudent);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Course-student relationship not found'], 404);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(CourseStudent $courseStudent)
+    public function update(UpdateCourseStudentRequest $request, CourseStudent $courseStudent): JsonResponse
     {
-        return response()->json($courseStudent);
+        try {
+            $courseStudent->update($request->validated());
+            return response()->json($courseStudent);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to update course-student relationship'], 500);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CourseStudent $courseStudent)
+    public function destroy(CourseStudent $courseStudent): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCourseStudentRequest $request, CourseStudent $courseStudent)
-    {
-        $courseStudent->update($request->validated());
-        return response()->json($courseStudent);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(CourseStudent $courseStudent)
-    {
-        $courseStudent->delete();
-        return response()->json(['message' => 'Successfully removed student from course'], 200);
+        try {
+            $courseStudent->delete();
+            return response()->json(['message' => 'Successfully removed student from course'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to remove student from course'], 500);
+        }
     }
 }
