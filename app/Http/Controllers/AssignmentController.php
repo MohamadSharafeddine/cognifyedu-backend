@@ -5,78 +5,53 @@ namespace App\Http\Controllers;
 use App\Models\Assignment;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Http\Requests\UpdateAssignmentRequest;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\JsonResponse;
+use Exception;
 
 class AssignmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): JsonResponse
     {
-        $assignments = Assignment::all();
-        return response()->json($assignments);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAssignmentRequest $request)
-    {
-        $assignment = Assignment::create($request->validated());
-        return response()->json($assignment, 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Assignment $assignment)
-    {
-        return response()->json($assignment);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Assignment $assignment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAssignmentRequest $request, Assignment $assignment)
-    {
-        $data = $request->validated();
-
-        if ($request->hasFile('attachment')) {
-            if ($assignment->attachment && Storage::exists($assignment->attachment)) {
-                Storage::delete($assignment->attachment);
-            }
-
-            $data['attachment'] = $request->file('attachment')->store('assignments', 'public');
+        try {
+            $assignments = Assignment::all();
+            return response()->json($assignments);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to fetch assignments'], 500);
         }
+    }
 
-        $assignment->update($data);
+    public function store(StoreAssignmentRequest $request): JsonResponse
+    {
+        try {
+            $assignment = Assignment::create($request->validated());
+            return response()->json($assignment, 201);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to create assignment'], 500);
+        }
+    }
 
+    public function show(Assignment $assignment): JsonResponse
+    {
         return response()->json($assignment);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Assignment $assignment)
+    public function update(UpdateAssignmentRequest $request, Assignment $assignment): JsonResponse
     {
-        $assignment->delete();
-        return response()->json(['message' => 'Successfully deleted assignment'], 200);
+        try {
+            $assignment->update($request->validated());
+            return response()->json($assignment);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to update assignment'], 500);
+        }
+    }
+
+    public function destroy(Assignment $assignment): JsonResponse
+    {
+        try {
+            $assignment->delete();
+            return response()->json(['message' => 'Successfully deleted assignment'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to delete assignment'], 500);
+        }
     }
 }
