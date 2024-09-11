@@ -54,4 +54,14 @@ class AssignmentController extends Controller
             return response()->json(['message' => 'Failed to delete assignment'], 500);
         }
     }
+
+    public function getAssignmentsForClass($classId): JsonResponse
+    {
+        try {
+            $assignments = Assignment::where('course_id', $classId)->get();
+            return response()->json($assignments);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to fetch assignments'], 500);
+        }
+    }
 }
