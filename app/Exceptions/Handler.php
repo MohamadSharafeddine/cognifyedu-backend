@@ -100,5 +100,12 @@ class Handler extends ExceptionHandler
             ], 404);
         }
 
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return response()->json([
+                'message' => 'Method not allowed.',
+            ], 405);
+        }
+
+
     }
 }
