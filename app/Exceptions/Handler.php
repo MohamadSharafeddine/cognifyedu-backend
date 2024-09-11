@@ -88,6 +88,12 @@ class Handler extends ExceptionHandler
             ], 401);
         }
 
+        if ($exception instanceof JWTException) {
+            return response()->json([
+                'message' => 'Token error.',
+            ], 500);
+        }
+
 
     }
 }
