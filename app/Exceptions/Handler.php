@@ -106,6 +106,8 @@ class Handler extends ExceptionHandler
             ], 405);
         }
 
-
+        return response()->json([
+            'message' => 'An unexpected error occurred.',
+        ], 500);
     }
 }
