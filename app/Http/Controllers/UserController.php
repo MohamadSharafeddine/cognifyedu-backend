@@ -6,105 +6,88 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): JsonResponse
     {
-        $users = User::all();
-        return response()->json($users);
-    }    
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        try {
+            $users = User::all();
+            return response()->json($users);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to fetch users'], 500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $data['password'] = Hash::make($data['password']);
-        $user = User::create($data);
-
-        $token = JWTAuth::fromUser($user);
-
-        return response()->json(['user' => $user, 'token' => $token], 201);
-    }
-    
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        return response()->json($user);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUserRequest $request, User $user)
-    {
-        $data = $request->validated();
-
-        if (isset($data['password'])) {
+        try {
+            $data = $request->validated();
             $data['password'] = Hash::make($data['password']);
+            $user = User::create($data);
+
+            $token = JWTAuth::fromUser($user);
+
+            return response()->json(['user' => $user, 'token' => $token], 201);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to create user'], 500);
         }
-        
-        $user->update($data);
+    }
+
+    public function show(User $user): JsonResponse
+    {
         return response()->json($user);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
+    public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
-        if ($user->delete()) {
+        try {
+            $data = $request->validated();
+            if (isset($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            }
+            $user->update($data);
+            return response()->json($user);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to update user'], 500);
+        }
+    }
+
+    public function destroy(User $user): JsonResponse
+    {
+        try {
+            $user->delete();
             return response()->json(['message' => 'Successfully deleted user'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to delete user'], 500);
         }
-        return response()->json(['message' => 'Failed to delete user'], 500);
     }
 
-    /**
-     * Handle user login and return a JWT token.
-     */
-    public function login()
+    public function login(): JsonResponse
     {
-        $credentials = request(['email', 'password']);
-
-        if (! $token = JWTAuth::attempt($credentials)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+        try {
+            $credentials = request(['email', 'password']);
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json(['message' => 'Invalid credentials'], 401);
+            }
+            return response()->json(['user' => auth()->user(), 'token' => $token]);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Login failed'], 500);
         }
-
-        return response()->json(['token' => $token]);
     }
 
-    /**
-     * Log the user out (invalidate the token).
-     */
-    public function logout()
+    public function logout(): JsonResponse
     {
-        JWTAuth::invalidate(JWTAuth::getToken());
-        return response()->json(['message' => 'Successfully logged out']);
+        try {
+            $token = JWTAuth::getToken();
+            JWTAuth::invalidate($token);
+            return response()->json(['message' => 'Successfully logged out']);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Logout failed'], 500);
+        }
     }
 }
