@@ -63,5 +63,11 @@ class Handler extends ExceptionHandler
                 'errors' => $exception->errors(),
             ], 422);
         }
+
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json([
+                'message' => 'Resource not found.',
+            ], 404);
+        }
     }
 }
