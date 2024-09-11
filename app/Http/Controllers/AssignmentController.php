@@ -55,10 +55,10 @@ class AssignmentController extends Controller
         }
     }
 
-    public function getAssignmentsForClass($classId): JsonResponse
+    public function getAssignmentsForCourse($courseId): JsonResponse
     {
         try {
-            $assignments = Assignment::where('course_id', $classId)->get();
+            $assignments = Assignment::where('course_id', $courseId)->get();
             return response()->json($assignments);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to fetch assignments'], 500);
