@@ -69,5 +69,13 @@ class Handler extends ExceptionHandler
                 'message' => 'Resource not found.',
             ], 404);
         }
+
+        if ($exception instanceof AuthenticationException) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+            ], 401);
+        }
+
+
     }
 }
