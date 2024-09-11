@@ -51,7 +51,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{assignment}', 'show');
         Route::post('/{assignment}', 'update');
         Route::delete('/{assignment}', 'destroy');
-        Route::get('/class/{classId}', 'getAssignmentsForClass');
+        Route::get('/course/{courseId}', 'getAssignmentsForCourse');
     });
 
     Route::prefix('submissions')->controller(SubmissionController::class)->group(function () {
