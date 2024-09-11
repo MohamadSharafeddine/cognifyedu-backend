@@ -82,6 +82,12 @@ class Handler extends ExceptionHandler
             ], 401);
         }
 
+        if ($exception instanceof TokenInvalidException) {
+            return response()->json([
+                'message' => 'Token is invalid.',
+            ], 401);
+        }
+
 
     }
 }
