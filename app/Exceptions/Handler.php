@@ -76,6 +76,12 @@ class Handler extends ExceptionHandler
             ], 401);
         }
 
+        if ($exception instanceof TokenExpiredException) {
+            return response()->json([
+                'message' => 'Token has expired.',
+            ], 401);
+        }
+
 
     }
 }
