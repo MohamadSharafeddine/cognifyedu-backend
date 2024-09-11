@@ -17,6 +17,17 @@ class Assignment extends Model
         'due_date',
     ];
     
+    protected $casts = [
+        'due_date' => 'date',
+    ];
+
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['due_date'] = $this->due_date->format('Y-m-d');
+        return $array;
+    }
     public function course()
     {
         return $this->belongsTo(Course::class);
