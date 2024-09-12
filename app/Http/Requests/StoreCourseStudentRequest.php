@@ -22,8 +22,7 @@ class StoreCourseStudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id' => 'required|exists:users,id',
-            'course_id' => 'required|exists:courses,id',
+            'email' => 'required|email|exists:users,email',
         ];
     }
 }
