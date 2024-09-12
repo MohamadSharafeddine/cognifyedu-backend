@@ -26,13 +26,14 @@ Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
-
+    
     Route::prefix('users')->controller(UserController::class)->group(function () {
         Route::get('/', 'index');
         Route::get('/{user}', 'show');
         Route::post('/{user}', 'update');
         Route::delete('/{user}', 'destroy');
         Route::post('/logout', 'logout');
+        Route::get('/email/{email}', 'getUserByEmail');
     });
 
     Route::prefix('courses')->controller(CourseController::class)->group(function () {
@@ -65,12 +66,15 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('course-students')->controller(CourseStudentController::class)->group(function () {
         Route::get('/', 'index');
-        Route::post('/', 'store');
+        Route::post('/{courseId}', 'store');
         Route::get('/{courseStudent}', 'show');
         Route::post('/{courseStudent}', 'update');
-        Route::delete('/{courseStudent}', 'destroy');
+        Route::delete('/{courseId}/{studentId}', 'destroy');
     });
-
+    
+    
+    
+    
     Route::prefix('profile-comments')->controller(ProfileCommentController::class)->group(function () {
         Route::get('/', 'index');
         Route::post('/', 'store');

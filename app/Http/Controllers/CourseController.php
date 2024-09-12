@@ -31,7 +31,6 @@ class CourseController extends Controller
         }
     }
 
-
     public function getCoursesByUserId($userId): JsonResponse
     {
         try {
@@ -85,7 +84,6 @@ class CourseController extends Controller
         }
     }
 
-
     public function destroy(Course $course): JsonResponse
     {
         try {
@@ -95,7 +93,6 @@ class CourseController extends Controller
             return response()->json(['message' => 'Failed to delete course'], 500);
         }
     }
-
 
     public function getStudents($courseId): JsonResponse
     {
