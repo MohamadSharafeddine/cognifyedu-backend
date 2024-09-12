@@ -90,4 +90,18 @@ class UserController extends Controller
             return response()->json(['message' => 'Logout failed'], 500);
         }
     }
+
+    public function getUserByEmail($email): JsonResponse
+    {
+        try {
+            $user = User::where('email', $email)->first();
+            if (!$user) {
+                return response()->json(['message' => 'User not found'], 404);
+            }
+            return response()->json(['user_id' => $user->id]);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to retrieve user'], 500);
+        }
+    }
+    
 }
