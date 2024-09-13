@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCourseStudentRequest;
 use App\Http\Requests\UpdateCourseStudentRequest;
 use Illuminate\Http\JsonResponse;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class CourseStudentController extends Controller
 {
@@ -35,6 +36,10 @@ class CourseStudentController extends Controller
                 'student_id' => $student->id,
             ]);
     
+            if ($student->profile_picture) {
+                $student->profile_picture = Storage::url($student->profile_picture);
+            }
+    
             return response()->json([
                 'course_student' => $courseStudent,
                 'student' => $student,
@@ -43,6 +48,7 @@ class CourseStudentController extends Controller
             return response()->json(['message' => 'Failed to add student to course'], 500);
         }
     }
+    
     
     public function show(CourseStudent $courseStudent): JsonResponse
     {
