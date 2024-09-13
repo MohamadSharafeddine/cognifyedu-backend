@@ -28,7 +28,7 @@ class UpdateUserRequest extends FormRequest
             'type' => 'sometimes|in:teacher,student,parent,admin',
             'date_of_birth' => 'sometimes|date',
             'address' => 'sometimes|string|max:255',
-            'profile_picture' => 'sometimes|string|max:255',
+            'profile_picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'parent_id' => 'sometimes|exists:users,id',
         ];
     }

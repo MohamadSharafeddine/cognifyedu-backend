@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
             'type' => 'required|in:teacher,student,parent,admin',
             'date_of_birth' => 'nullable|date',
             'address' => 'nullable|string|max:255',
-            'profile_picture' => 'nullable|string|max:255',
+            'profile_picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'parent_id' => 'nullable|exists:users,id',
         ];
     }    
