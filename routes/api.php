@@ -15,18 +15,13 @@ use App\Http\Controllers\InsightController;
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
 */
 
 Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
-    
+
     Route::prefix('users')->controller(UserController::class)->group(function () {
         Route::get('/', 'index');
         Route::get('/{user}', 'show');
@@ -52,17 +47,20 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{assignment}', 'show');
         Route::post('/{assignment}', 'update');
         Route::delete('/{assignment}', 'destroy');
+        Route::get('{assignmentId}/download', 'downloadAttachment');
         Route::get('/course/{courseId}', 'getAssignmentsForCourse');
     });
 
     Route::prefix('submissions')->controller(SubmissionController::class)->group(function () {
-        Route::get('/', 'index');
-        Route::post('/', 'store');
-        Route::get('/{submission}', 'show');
-        Route::post('/{submission}', 'update');
-        Route::delete('/{submission}', 'destroy');
         Route::get('/assignment/{assignmentId}', 'getSubmissionsForAssignment');
+        Route::post('/', 'store');
+        Route::post('/{submission}', 'update');
+        Route::post('/{submissionId}/grade', 'gradeSubmission');
+        Route::delete('/{submission}', 'destroy');
+        Route::get('/submissions/{submissionId}/download',  'downloadFile');
+        Route::get('/{submission}', 'show');
     });
+    
 
     Route::prefix('course-students')->controller(CourseStudentController::class)->group(function () {
         Route::get('/', 'index');
@@ -71,10 +69,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/{courseStudent}', 'update');
         Route::delete('/{courseId}/{studentId}', 'destroy');
     });
-    
-    
-    
-    
+
     Route::prefix('profile-comments')->controller(ProfileCommentController::class)->group(function () {
         Route::get('/', 'index');
         Route::post('/', 'store');
