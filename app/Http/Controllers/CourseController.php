@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateCourseRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -99,11 +100,21 @@ class CourseController extends Controller
         try {
             $course = Course::findOrFail($courseId);
             $students = $course->CourseStudents->map(function ($courseStudent) {
-                return $courseStudent->student;
+                $student = $courseStudent->student;
+    
+                if ($student->profile_picture) {
+                    $student->profile_picture = Storage::url($student->profile_picture);
+                }
+    
+                return $student;
             });
+    
             return response()->json($students);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to fetch students'], 500);
         }
     }
+    
+    
+    
 }

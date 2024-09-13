@@ -114,24 +114,24 @@ class AssignmentController extends Controller
         }
     }
 
- public function downloadAttachment($assignmentId)
+    public function downloadAttachment($assignmentId)
     {
         try {
             $assignment = Assignment::findOrFail($assignmentId);
-
+    
             if (!$assignment->attachment) {
                 return response()->json(['message' => 'No attachment found for this assignment'], 404);
             }
-
+    
             $filePath = storage_path('app/public/' . $assignment->attachment);
-
+    
             if (!file_exists($filePath)) {
                 return response()->json(['message' => 'File not found in storage'], 404);
             }
-
+    
             return response()->download($filePath);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error downloading file', 'error' => $e->getMessage()], 500);
         }
-    }
+    }    
 }
