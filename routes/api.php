@@ -85,21 +85,25 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{cognitiveScore}', 'show');
         Route::post('/{cognitiveScore}', 'update');
         Route::delete('/{cognitiveScore}', 'destroy');
+        Route::get('/{userId}/progress', 'getUserAverageScores');
     });
-
+    
     Route::prefix('behavioral-scores')->controller(BehavioralScoreController::class)->group(function () {
         Route::get('/', 'index');
         Route::post('/', 'store');
         Route::get('/{behavioralScore}', 'show');
         Route::post('/{behavioralScore}', 'update');
         Route::delete('/{behavioralScore}', 'destroy');
+        Route::get('/{userId}/progress', 'getUserAverageScores');
     });
-
+    
     Route::prefix('insights')->controller(InsightController::class)->group(function () {
         Route::get('/', 'index');
         Route::post('/', 'store');
         Route::get('/{insight}', 'show');
         Route::post('/{insight}', 'update');
         Route::delete('/{insight}', 'destroy');
+        Route::get('/user/${userId}', 'getUserInsights');
     });
+    
 });
