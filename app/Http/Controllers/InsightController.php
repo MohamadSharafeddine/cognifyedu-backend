@@ -67,4 +67,16 @@ class InsightController extends Controller
         $insight->delete();
         return response()->json(['message' => 'Successfully deleted insight'], 200);
     }
+    
+    public function getUserInsights($userId)
+    {
+        $insights = Insight::where('student_id', $userId)->first();
+
+        if (!$insights) {
+            return response()->json(['message' => 'Insights not found'], 404);
+        }
+
+        return response()->json($insights);
+    }
+
 }
