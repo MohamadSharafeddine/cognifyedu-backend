@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -28,18 +29,31 @@ class UserController extends Controller
         try {
             $data = $request->validated();
             $data['password'] = Hash::make($data['password']);
+            
+            if (!isset($data['profile_picture'])) {
+                $data['profile_picture'] = 'public/profile_pictures/default.jpg';
+            }
+            
             $user = User::create($data);
-
+            
             $token = JWTAuth::fromUser($user);
-
+    
+            if ($user->profile_picture) {
+                $user->profile_picture = Storage::url($user->profile_picture);
+            }
+    
             return response()->json(['user' => $user, 'token' => $token], 201);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to create user'], 500);
         }
     }
+    
 
     public function show(User $user): JsonResponse
     {
+        if ($user->profile_picture) {
+            $user->profile_picture = Storage::url($user->profile_picture);
+        }
         return response()->json($user);
     }
 
@@ -50,7 +64,18 @@ class UserController extends Controller
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             }
+    
+            if ($request->hasFile('profile_picture')) {
+                $path = $request->file('profile_picture')->store('public/profile_pictures');
+                $data['profile_picture'] = $path;
+            }
+    
             $user->update($data);
+    
+            if ($user->profile_picture) {
+                $user->profile_picture = Storage::url($user->profile_picture);
+            }
+    
             return response()->json($user);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to update user'], 500);
@@ -74,7 +99,13 @@ class UserController extends Controller
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['message' => 'Invalid credentials'], 401);
             }
-            return response()->json(['user' => auth()->user(), 'token' => $token]);
+            $user = auth()->user();
+            
+            if ($user->profile_picture) {
+                $user->profile_picture = Storage::url($user->profile_picture);
+            }
+            
+            return response()->json(['user' => $user, 'token' => $token]);
         } catch (Exception $e) {
             return response()->json(['message' => 'Login failed'], 500);
         }
@@ -103,5 +134,19 @@ class UserController extends Controller
             return response()->json(['message' => 'Failed to retrieve user'], 500);
         }
     }
-    
+
+    public function downloadProfilePicture(User $user)
+    {
+        try {
+            if ($user->profile_picture) {
+                $filePath = $user->profile_picture;
+                if (Storage::exists($filePath)) {
+                    return response()->download(storage_path("app/{$filePath}"));
+                }
+            }
+            return response()->json(['message' => 'Profile picture not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to retrieve profile picture'], 500);
+        }
+    }
 }
