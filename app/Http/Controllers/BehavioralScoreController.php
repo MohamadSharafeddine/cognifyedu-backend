@@ -67,4 +67,13 @@ class BehavioralScoreController extends Controller
         $behavioralScore->delete();
         return response()->json(['message' => 'Successfully deleted behavioral score'], 200);
     }
+    public function getUserAverageScores($userId)
+    {
+        $averageScores = BehavioralScore::where('user_id', $userId)
+            ->selectRaw('AVG(engagement) as engagement, AVG(time_management) as time_management, AVG(adaptability) as adaptability, AVG(collaboration) as collaboration, AVG(focus) as focus')
+            ->first();
+        
+        return response()->json($averageScores);
+    }
+
 }
