@@ -28,6 +28,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/{user}', 'update');
         Route::delete('/{user}', 'destroy');
         Route::post('/logout', 'logout');
+        Route::get('/{user}/profile-picture', 'downloadProfilePicture');
         Route::get('/email/{email}', 'getUserByEmail');
     });
 
