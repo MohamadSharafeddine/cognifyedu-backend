@@ -15,7 +15,7 @@ class UpdateSubmissionRequest extends FormRequest
     {
         return [
             'assignment_id' => 'sometimes|exists:assignments,id',
-            'deliverable' => 'required|file|mimes:txt,pdf,doc,docx|max:10240', // Ensure the file size is correct
+            'deliverable' => 'required|file|mimes:txt,pdf,doc,docx,jpeg,png,jpg,gif|max:10240',
             'mark' => 'nullable|integer|min:0|max:100',
             'teacher_comment' => 'nullable|string',
         ];

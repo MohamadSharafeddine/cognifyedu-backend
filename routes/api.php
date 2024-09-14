@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileCommentController;
 use App\Http\Controllers\CognitiveScoreController;
 use App\Http\Controllers\BehavioralScoreController;
 use App\Http\Controllers\InsightController;
+use App\Http\Controllers\AIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,11 +58,10 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/', 'store');
         Route::post('/{submission}', 'update');
         Route::post('/{submissionId}/grade', 'gradeSubmission');
+        Route::get('/{submissionId}/download', 'downloadFile');
         Route::delete('/{submission}', 'destroy');
-        Route::get('/submissions/{submissionId}/download',  'downloadFile');
         Route::get('/{submission}', 'show');
     });
-    
 
     Route::prefix('course-students')->controller(CourseStudentController::class)->group(function () {
         Route::get('/', 'index');
@@ -103,7 +103,10 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{insight}', 'show');
         Route::post('/{insight}', 'update');
         Route::delete('/{insight}', 'destroy');
-        Route::get('/user/${userId}', 'getUserInsights');
+        Route::get('/user/{userId}', 'getUserInsights');
     });
+
+    Route::post('/ai/assessments/{submissionId}', [AIController::class, 'generateAssignmentAssessment']);
+
     
 });

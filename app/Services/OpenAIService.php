@@ -16,9 +16,10 @@ class OpenAIService
         $this->apiKey = env('OPENAI_API_KEY');
     }
 
-    public function generateAssessment(array $studentData, string $comment, array $assignmentData, array $submissionData)
+    public function generateAssessment(array $studentData, string $comment, array $assignmentsData)
     {
-        $prompt = $this->buildPrompt($studentData, $comment, $assignmentData, $submissionData);
+        // Pass an array of assignments instead of a single assignment
+        $prompt = $this->buildPrompt($studentData, $comment, $assignmentsData);
 
         try {
             $response = $this->client->post('https://api.openai.com/v1/completions', [
@@ -41,14 +42,24 @@ class OpenAIService
         }
     }
 
-    private function buildPrompt(array $studentData, string $comment, array $assignmentData, array $submissionData)
+    private function buildPrompt(array $studentData, string $comment, array $assignmentsData)
     {
+        $assignmentsInfo = '';
+
+        // Iterate over assignments to include their details in the prompt
+        foreach ($assignmentsData as $assignment) {
+            $assignmentsInfo .= "
+                Assignment Title: {$assignment['title']}
+                Assignment Description: {$assignment['description']}
+                Assignment Due Date: {$assignment['due_date']}
+                Submission File: {$assignment['file']}
+                Submission Date: {$assignment['submission_date']}
+            ";
+        }
+
         return "Student Name: {$studentData['name']}, Age: {$studentData['age']}
-                Assignment Title: {$assignmentData['title']}
-                Assignment Description: {$assignmentData['description']}
-                Assignment Due Date: {$assignmentData['due_date']}
-                Submission File: {$submissionData['file']}
-                Submission Date: {$submissionData['submission_date']}
+                Recent Assignments and Submissions:
+                {$assignmentsInfo}
                 Teacher Comment: {$comment}";
     }
 }

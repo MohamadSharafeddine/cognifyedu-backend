@@ -17,7 +17,7 @@ class UpdateAssignmentRequest extends FormRequest
             'course_id' => 'sometimes|exists:courses,id',
             'title' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
-            'attachment' => 'sometimes|file|mimes:txt,pdf,doc,docx|max:10240', // Optional file update
+            'attachment' => 'sometimes|file|mimes:txt,pdf,doc,docx,jpeg,png,jpg,gif|max:10240',
             'due_date' => 'sometimes|date',
         ];
     }

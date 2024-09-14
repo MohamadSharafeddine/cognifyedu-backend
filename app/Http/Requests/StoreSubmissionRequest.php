@@ -15,7 +15,7 @@ class StoreSubmissionRequest extends FormRequest
     {
         return [
             'assignment_id' => 'required|exists:assignments,id',
-            'deliverable' => 'required|file|mimes:txt,pdf,doc,docx|max:10240',
+            'deliverable' => 'required|file|mimes:txt,pdf,doc,docx,jpeg,png,jpg,gif|max:10240',
         ];
     }
 }

@@ -31,27 +31,31 @@ class SubmissionController extends Controller
     {
         try {
             $data = $request->validated();
-
+    
             $data['assignment_id'] = $request->input('assignment_id');
-
             $data['student_id'] = Auth::id();
-
+    
             if ($request->hasFile('deliverable')) {
                 $filePath = $request->file('deliverable')->store('submissions', 'public');
-                $data['deliverable'] = Storage::url($filePath);
+                $data['deliverable'] = $filePath;
             }
-
+    
             $data['submission_date'] = now();
-
+    
             $submission = Submission::create($data);
-
+    
+            if ($submission->deliverable) {
+                $submission->deliverable_url = Storage::url($submission->deliverable);
+            }
+    
             $submission->load('student:id,name,email');
-
+    
             return response()->json($submission, 201);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to create submission'], 500);
         }
     }
+    
 
     public function update(UpdateSubmissionRequest $request, Submission $submission): JsonResponse
     {
@@ -125,16 +129,17 @@ class SubmissionController extends Controller
         try {
             $submission = Submission::findOrFail($submissionId);
     
-            if (!$submission->deliverable || !Storage::disk('public')->exists($submission->deliverable)) {
+            if (!$submission->deliverable) {
                 return response()->json(['message' => 'File not found'], 404);
             }
     
-            $fileContent = Storage::disk('public')->get($submission->deliverable);
-            $fileName = basename($submission->deliverable);
+            $filePath = storage_path('app/public/' . $submission->deliverable);
     
-            return response($fileContent, 200)
-                ->header('Content-Type', 'application/octet-stream')
-                ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+            if (!file_exists($filePath)) {
+                return response()->json(['message' => 'File not found in storage'], 404);
+            }
+    
+            return response()->download($filePath);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error downloading file',
@@ -142,6 +147,7 @@ class SubmissionController extends Controller
             ], 500);
         }
     }
+    
     
     
 }
