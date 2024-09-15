@@ -10,8 +10,9 @@ class BehavioralScore extends Model
     use HasFactory;
 
     protected $fillable = [
-        'assignment_id',
-        'submission_id',
+        'student_id',
+        // 'assignment_id',
+        // 'submission_id',
         'engagement',
         'time_management',
         'adaptability',
@@ -19,13 +20,18 @@ class BehavioralScore extends Model
         'focus',
     ];
 
-    public function assignment()
+    public function student()
     {
-        return $this->belongsTo(Assignment::class);
+        return $this->belongsTo(User::class, 'student_id');
     }
 
-    public function submission()
-    {
-        return $this->belongsTo(Submission::class);
-    }
+    // public function assignment()
+    // {
+    //     return $this->belongsTo(Assignment::class);
+    // }
+
+    // public function submission()
+    // {
+    //     return $this->belongsTo(Submission::class);
+    // }
 }

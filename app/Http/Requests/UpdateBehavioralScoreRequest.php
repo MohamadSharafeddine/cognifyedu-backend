@@ -22,8 +22,9 @@ class UpdateBehavioralScoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'assignment_id' => 'sometimes|exists:assignments,id',
-            'submission_id' => 'sometimes|exists:submissions,id',
+            'student_id' => 'sometimes|exists:users,id',
+            // 'assignment_id' => 'sometimes|exists:assignments,id',
+            // 'submission_id' => 'sometimes|exists:submissions,id',
             'engagement' => 'sometimes|integer|min:0|max:100',
             'time_management' => 'sometimes|integer|min:0|max:100',
             'adaptability' => 'sometimes|integer|min:0|max:100',

@@ -22,8 +22,9 @@ class StoreBehavioralScoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'assignment_id' => 'requires|exists:assignments,id',
-            'submission_id' => 'requires|exists:submissions,id',
+            'student_id' => 'requires|exists:users,id',
+            // 'assignment_id' => 'requires|exists:assignments,id',
+            // 'submission_id' => 'requires|exists:submissions,id',
             'engagement' => 'nullable|integer|min:0|max:100',
             'time_management' => 'nullable|integer|min:0|max:100',
             'adaptability' => 'nullable|integer|min:0|max:100',

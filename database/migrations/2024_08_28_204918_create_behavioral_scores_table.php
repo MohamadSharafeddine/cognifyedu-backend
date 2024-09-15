@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('behavioral_scores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('assignment_id')->constrained('assignments')->onDelete('cascade');
-            $table->foreignId('submission_id')->constrained('submissions')->onDelete('cascade');
+            $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
+            // $table->foreignId('assignment_id')->constrained('assignments')->onDelete('cascade');
+            // $table->foreignId('submission_id')->constrained('submissions')->onDelete('cascade');
             $table->integer('engagement');
             $table->integer('time_management');
             $table->integer('adaptability');
