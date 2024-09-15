@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('insights', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('cognitive_score_id')->constrained('cognitive_scores')->onDelete('cascade');
-            $table->foreignId('behavioral_score_id')->constrained('behavioral_scores')->onDelete('cascade');
-            $table->foreignId('profile_comment_id')->nullable()->constrained('profile_comments')->onDelete('set null');
+            // $table->foreignId('cognitive_score_id')->constrained('cognitive_scores')->onDelete('cascade');
+            // $table->foreignId('behavioral_score_id')->constrained('behavioral_scores')->onDelete('cascade');
+            // $table->foreignId('profile_comment_id')->nullable()->constrained('profile_comments')->onDelete('set null');
             $table->text('summary')->nullable();
             $table->text('detailed_analysis')->nullable();
             $table->text('recommendations')->nullable();

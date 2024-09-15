@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Insight;
 use App\Http\Requests\StoreInsightRequest;
 use App\Http\Requests\UpdateInsightRequest;
+use Exception;
 
 class InsightController extends Controller
 {
@@ -68,9 +69,9 @@ class InsightController extends Controller
         return response()->json(['message' => 'Successfully deleted insight'], 200);
     }
     
-    public function getUserInsights($userId)
+    public function getUserInsights($studentId)
     {
-        $insights = Insight::where('student_id', $userId)->first();
+        $insights = Insight::where('student_id', $studentId)->first();
 
         if (!$insights) {
             return response()->json(['message' => 'Insights not found'], 404);
@@ -78,5 +79,22 @@ class InsightController extends Controller
 
         return response()->json($insights);
     }
+
+    public function getLatestInsights($studentId)
+    {
+        try {
+            $latestInsights = Insight::where('student_id', $studentId)->latest()->first();
+            
+            if (!$latestInsights) {
+                return null;
+            }
+    
+            return $latestInsights;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+    
+
 
 }

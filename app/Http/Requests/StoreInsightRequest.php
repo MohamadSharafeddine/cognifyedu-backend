@@ -23,9 +23,9 @@ class StoreInsightRequest extends FormRequest
     {
         return [
             'student_id' => 'required|exists:users,id',
-            'cognitive_score_id' => 'nullable|exists:cognitive_scores,id',
-            'behavioral_score_id' => 'nullable|exists:behavioral_scores,id',
-            'profile_comment_id' => 'nullable|exists:profile_comments,id',
+            // 'cognitive_score_id' => 'nullable|exists:cognitive_scores,id',
+            // 'behavioral_score_id' => 'nullable|exists:behavioral_scores,id',
+            // 'profile_comment_id' => 'nullable|exists:profile_comments,id',
             'summary' => 'nullable|string',
             'detailed_analysis' => 'nullable|string',
             'recommendations' => 'nullable|string',

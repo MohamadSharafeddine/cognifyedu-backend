@@ -11,9 +11,9 @@ class Insight extends Model
 
     protected $fillable = [
         'student_id',
-        'cognitive_score_id',
-        'behavioral_score_id',
-        'profile_comment_id',
+        // 'cognitive_score_id',
+        // 'behavioral_score_id',
+        // 'profile_comment_id',
         'summary',
         'detailed_analysis',
         'recommendations',
@@ -25,18 +25,18 @@ class Insight extends Model
         return $this->belongsTo(User::class, 'student_id');
     }
 
-    public function cognitiveScore()
-    {
-        return $this->belongsTo(CognitiveScore::class);
-    }
+    // public function cognitiveScore()
+    // {
+    //     return $this->belongsTo(CognitiveScore::class);
+    // }
 
-    public function behavioralScore()
-    {
-        return $this->belongsTo(BehavioralScore::class);
-    }
+    // public function behavioralScore()
+    // {
+    //     return $this->belongsTo(BehavioralScore::class);
+    // }
 
-    public function profileComment()
-    {
-        return $this->belongsTo(ProfileComment::class, 'profile_comment_id');
-    }
+    // public function profileComment()
+    // {
+    //     return $this->belongsTo(ProfileComment::class, 'profile_comment_id');
+    // }
 }
