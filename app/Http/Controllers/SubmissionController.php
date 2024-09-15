@@ -6,11 +6,13 @@ use App\Models\Submission;
 use App\Models\Assignment;
 use App\Http\Requests\StoreSubmissionRequest;
 use App\Http\Requests\UpdateSubmissionRequest;
+use App\Models\ProfileComment;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Log as Log;
 
 class SubmissionController extends Controller
 {
@@ -82,7 +84,7 @@ class SubmissionController extends Controller
     }
 
 
-    public function gradeSubmission(Request $request, $submissionId): JsonResponse
+    public function markSubmission(Request $request, $submissionId): JsonResponse
     {
         try {
             $submission = Submission::findOrFail($submissionId);
@@ -96,7 +98,7 @@ class SubmissionController extends Controller
 
             return response()->json($submission);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Failed to grade submission'], 500);
+            return response()->json(['message' => 'Failed to mark submission'], 500);
         }
     }
 
@@ -148,6 +150,41 @@ class SubmissionController extends Controller
         }
     }
     
+    public function getNewSubmissions($studentId)
+    {
+        try {
+            $lastComment = ProfileComment::where('student_id', $studentId)->latest('created_at')->first();
+            $lastCommentDate = $lastComment ? $lastComment->created_at : null;
+    
+            $query = Submission::where('student_id', $studentId)
+                ->whereNotNull('mark');
+    
+            if ($lastCommentDate) {
+                $query->where('updated_at', '>', $lastCommentDate);
+            }
+    
+            $newSubmissions = $query->with('assignment:id,title,description')->get();
+    
+            foreach ($newSubmissions as $submission) {
+                if ($submission->deliverable) {
+                    $filePath = storage_path('app/public/' . $submission->deliverable);
+                    if (file_exists($filePath)) {
+                        $submission->deliverable_content = file_get_contents($filePath);
+                    } else {
+                        $submission->deliverable_content = null;
+                    }
+                }
+            }
+    
+            return response()->json($newSubmissions);
+        } catch (Exception $e) {
+            Log::error('Error in getNewSubmissions: ' . $e->getMessage());
+            return response()->json(['message' => 'Failed to fetch new submissions'], 500);
+        }
+    }
+    
+    
+
     
     
 }
