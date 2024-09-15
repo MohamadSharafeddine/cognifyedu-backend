@@ -3,68 +3,57 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProfileComment;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Exception;
 use App\Http\Requests\StoreProfileCommentRequest;
-use App\Http\Requests\UpdateProfileCommentRequest;
 
 class ProfileCommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $profileComments = ProfileComment::all();
         return response()->json($profileComments);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreProfileCommentRequest $request): JsonResponse
     {
-        //
+        try {
+            $data = $request->validated();
+        
+            $profileComment = ProfileComment::create($data);
+        
+            // $aiData = app(AIController::class)->prepareDataForPrompt($data['student_id']);
+        
+            return response()->json([
+                'profile_comment' => $profileComment,
+                // 'ai_data' => $aiData,
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }    
+    
+
+    public function getProfileComments($studentId): JsonResponse
+    {
+        try {
+            $comments = ProfileComment::where('student_id', $studentId)->get();
+
+            return response()->json($comments);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to fetch profile comments'], 500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreProfileCommentRequest $request)
+    public function getLastProfileComment($studentId): JsonResponse
     {
-        $profileComment = ProfileComment::create($request->validated());
-        return response()->json($profileComment, 201);
-    }
+        try {
+            $lastComment = ProfileComment::where('student_id', $studentId)->latest()->first();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProfileComment $profileComment)
-    {
-        return response()->json($profileComment);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ProfileComment $profileComment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProfileCommentRequest $request, ProfileComment $profileComment)
-    {
-        $profileComment->update($request->validated());
-        return response()->json($profileComment);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ProfileComment $profileComment)
-    {
-        $profileComment->delete();
-        return response()->json(['message' => 'Successfully deleted profile comment'], 200);
+            return response()->json($lastComment);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to fetch latest profile comment'], 500);
+        }
     }
 }
