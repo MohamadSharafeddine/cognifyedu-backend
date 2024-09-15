@@ -28,13 +28,13 @@ class Submission extends Model
         return $this->belongsTo(User::class, 'student_id');
     }
 
-    public function cognitiveScores()
-    {
-        return $this->hasOne(CognitiveScore::class);
-    }
+//     public function cognitiveScores()
+//     {
+//         return $this->hasMany(CognitiveScore::class);
+//     }
 
-    public function behavioralScores()
-    {
-        return $this->hasOne(BehavioralScore::class);
-    }
+//     public function behavioralScores()
+//     {
+//         return $this->hasMany(BehavioralScore::class);
+//     }
 }
