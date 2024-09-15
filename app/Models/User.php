@@ -55,4 +55,19 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(User::class, 'parent_id');
     }
+
+    public function profileComments()
+    {
+        return $this->hasMany(ProfileComment::class, 'student_id');
+    }
+
+    public function commentsMade()
+    {
+        return $this->hasMany(ProfileComment::class, 'teacher_id');
+    }
+
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class, 'student_id');
+    }
 }
