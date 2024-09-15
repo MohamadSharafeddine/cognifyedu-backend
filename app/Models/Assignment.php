@@ -21,13 +21,13 @@ class Assignment extends Model
         'due_date' => 'date',
     ];
 
-
     public function toArray()
     {
         $array = parent::toArray();
-        $array['due_date'] = $this->due_date->format('Y-m-d');
+        $array['due_date'] = $this->due_date ? $this->due_date->format('Y-m-d') : null;
         return $array;
     }
+
     public function course()
     {
         return $this->belongsTo(Course::class);
@@ -36,13 +36,5 @@ class Assignment extends Model
     public function submissions()
     {
         return $this->hasMany(Submission::class);
-    }
-    public function cognitiveScores()
-    {
-        return $this->hasMany(CognitiveScore::class);
-    }
-    public function behavioralScores()
-    {
-        return $this->hasMany(BehavioralScore::class);
     }
 }
