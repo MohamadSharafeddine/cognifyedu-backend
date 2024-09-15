@@ -15,9 +15,9 @@ class UpdateSubmissionRequest extends FormRequest
     {
         return [
             'assignment_id' => 'sometimes|exists:assignments,id',
-            'deliverable' => 'required|file|mimes:txt,pdf,doc,docx,jpeg,png,jpg,gif|max:10240',
-            'mark' => 'nullable|integer|min:0|max:100',
-            'teacher_comment' => 'nullable|string',
+            'deliverable' => 'sometimes|file|mimes:txt,pdf,doc,docx,jpeg,png,jpg,gif|max:10240',
+            'mark' => 'sometimes|integer|min:0|max:100',
+            'teacher_comment' => 'sometimes|string',
         ];
     }
 }
