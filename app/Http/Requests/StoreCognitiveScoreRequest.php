@@ -22,8 +22,9 @@ class StoreCognitiveScoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'assignment_id' => 'required|exists:assignments,id',
-            'submission_id' => 'required|exists:submissions,id',
+            'student_id' => 'required|exists:users,id',
+            // 'assignment_id' => 'required|exists:assignments,id',
+            // 'submission_id' => 'required|exists:submissions,id',
             'critical_thinking' => 'nullable|integer|min:0|max:100',
             'logical_thinking' => 'nullable|integer|min:0|max:100',
             'linguistic_ability' => 'nullable|integer|min:0|max:100',

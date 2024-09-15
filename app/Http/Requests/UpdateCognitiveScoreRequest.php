@@ -22,8 +22,9 @@ class UpdateCognitiveScoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'assignment_id' => 'sometimes|exists:assignments,id',
-            'submission_id' => 'sometimes|exists:submissions,id',
+            'student_id' => 'sometimes|exists:users,id',
+            // 'assignment_id' => 'sometimes|exists:assignments,id',
+            // 'submission_id' => 'sometimes|exists:submissions,id',
             'critical_thinking' => 'sometimes|integer|min:0|max:100',
             'logical_thinking' => 'sometimes|integer|min:0|max:100',
             'linguistic_ability' => 'sometimes|integer|min:0|max:100',
