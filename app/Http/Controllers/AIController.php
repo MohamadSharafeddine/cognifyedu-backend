@@ -11,12 +11,9 @@ use App\Models\BehavioralScore;
 use App\Models\User;
 use App\Models\Insight;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Smalot\PdfParser\Parser as PdfParser;
 use PhpOffice\PhpWord\IOFactory as WordIOFactory;
-use Illuminate\Support\Facades\Log;
-use App\Http\Requests\StoreCognitiveScoreRequest;
-use App\Http\Requests\StoreBehavioralScoreRequest;
-use App\Http\Requests\StoreInsightRequest;
 
 class AIController extends Controller
 {
@@ -30,6 +27,8 @@ class AIController extends Controller
     public function analyzeStudentPerformance($studentId)
     {
         try {
+            Log::info('Analyzing student performance for student_id: ' . $studentId);
+
             $student = User::findOrFail($studentId);
             $submissions = $this->collectDataForAI($studentId);
 
@@ -51,7 +50,7 @@ class AIController extends Controller
                 ->first()
                 ->toArray();
 
-            $latestProfileComment = ProfileComment::where('student_id', $studentId)->latest()->value('comment');
+            $latestProfileComment = ProfileComment::where('student_id', $studentId)->latest()->value('comment') ?? 'No recent comments';
 
             $latestInsights = Insight::where('student_id', $studentId)->latest()->first();
 
@@ -62,60 +61,77 @@ class AIController extends Controller
                 $submissions,
                 $averageCognitiveScores,
                 $averageBehavioralScores,
-                $latestProfileComment ?? 'No recent comments',
+                $latestProfileComment,
                 $latestInsights
             );
 
             $response = $this->openAIService->analyzeText($prompt);
 
+            Log::info('Received AI response: ', $response);
+
             $this->storeAIResults($response);
 
-            return response()->json([
+            return [
                 'message' => 'Analysis completed successfully.',
                 'ai_response' => $response
-            ]);
+            ];
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            Log::error('Error in analyzing student performance: ' . $e->getMessage());
+            throw $e;
         }
     }
 
     public function collectDataForAI($studentId)
     {
         try {
-            $lastComment = ProfileComment::where('student_id', $studentId)->latest('created_at')->first();
-    
-            if (!$lastComment) {
+            $previousComment = ProfileComment::where('student_id', $studentId)
+                ->latest('created_at')
+                ->skip(1)
+                ->first();
+
+            if (!$previousComment) {
                 $newSubmissions = Submission::where('student_id', $studentId)->with('assignment.course')->get();
+                Log::info('No previous comments found, fetching all submissions.');
             } else {
                 $newSubmissions = Submission::where('student_id', $studentId)
-                    ->where('updated_at', '>', $lastComment->created_at)
+                    ->where('updated_at', '>', $previousComment->created_at)
                     ->with('assignment.course')
                     ->get();
+                Log::info('Previous comments found, fetching new submissions.');
             }
-    
+
+            Log::info('New Submissions found: ', $newSubmissions->toArray());
+
             $dataForAI = [];
             foreach ($newSubmissions as $submission) {
                 $assignment = $submission->assignment;
                 $course = $assignment->course;
-                $extractedText = $this->extractTextFromFile(storage_path('app/public/' . $submission->deliverable));
+                $extractedSubmissionText = $this->extractTextFromFile(storage_path('app/public/' . $submission->deliverable));
+                $extractedAssignmentText = $this->extractTextFromFile(storage_path('app/public/' . $assignment->attachment));
+
                 $dataForAI[] = [
-                    'student_id' => $studentId,
-                    'assignment_id' => $assignment->id,
-                    'assignment_title' => $assignment->title,
-                    'assignment_description' => $assignment->description,
-                    'course_name' => $course->name,
-                    'assignment_difficulty' => $assignment->difficulty,
-                    'submission_date' => $submission->submission_date,
-                    'submission_content' => $extractedText,
-                    'teacher_comment' => $submission->teacher_comment,
-                    'mark' => $submission->mark,
-                    'created_at' => $submission->created_at,
-                    'updated_at' => $submission->updated_at,
+                    'student_id'            => $studentId,
+                    'assignment_id'         => $assignment->id,
+                    'assignment_title'      => $assignment->title,
+                    'assignment_description'=> $assignment->description,
+                    'assignment_content'    => $extractedAssignmentText,
+                    'assignment_due_date'   => $assignment->due_date,
+                    'course_name'           => $course->name,
+                    'submission_id'         => $submission->id,
+                    'submission_date'       => $submission->submission_date,
+                    'submission_content'    => $extractedSubmissionText,
+                    'teacher_comment'       => $submission->teacher_comment,
+                    'mark'                  => $submission->mark,
+                    'created_at'            => $submission->created_at,
+                    'updated_at'            => $submission->updated_at,
                 ];
             }
-    
+
+            Log::info('Data for AI: ', $dataForAI);
+
             return $dataForAI;
         } catch (Exception $e) {
+            Log::error('Error in collecting data for AI: ' . $e->getMessage());
             return [];
         }
     }
@@ -164,11 +180,11 @@ class AIController extends Controller
             if (isset($response['cognitive_scores'])) {
                 CognitiveScore::create($response['cognitive_scores']);
             }
-    
+
             if (isset($response['behavioral_scores'])) {
                 BehavioralScore::create($response['behavioral_scores']);
             }
-    
+
             if (isset($response['insights'])) {
                 Insight::create($response['insights']);
             }
@@ -176,7 +192,4 @@ class AIController extends Controller
             Log::error('Error storing AI results: ' . $e->getMessage());
         }
     }
-    
-    
-    
 }
