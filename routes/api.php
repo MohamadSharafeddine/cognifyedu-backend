@@ -89,6 +89,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/{cognitiveScore}', 'update');
         Route::delete('/{cognitiveScore}', 'destroy');
         Route::get('/{userId}/average', 'getUserAverageScores');
+        Route::get('/{userId}/progress', 'getUserScoresProgress'); 
     });
     
     Route::prefix('behavioral-scores')->controller(BehavioralScoreController::class)->group(function () {
@@ -98,6 +99,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/{behavioralScore}', 'update');
         Route::delete('/{behavioralScore}', 'destroy');
         Route::get('/{userId}/average', 'getUserAverageScores');
+        Route::get('/{userId}/progress', 'getUserScoresProgress');
     });
     
     Route::prefix('insights')->controller(InsightController::class)->group(function () {
@@ -110,8 +112,4 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::get('/ai/assessment/{studentId}', [AIController::class, 'analyzeStudentPerformance']);
-
-
-    // AIController route for data collection (preparing for AI integration)
-    // Route::get('/ai/data-collection/{studentId}', [AIController::class, 'collectDataForAI']);
 });
