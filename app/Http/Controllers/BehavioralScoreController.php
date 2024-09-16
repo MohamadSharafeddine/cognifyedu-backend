@@ -79,6 +79,15 @@ class BehavioralScoreController extends Controller
         
         return response()->json($averageScores);
     }
+
+    public function getUserScoresProgress($userId)
+    {
+        $behavioralScores = BehavioralScore::where('student_id', $userId)
+            ->orderBy('created_at', 'asc')
+            ->get(['engagement', 'time_management', 'adaptability', 'collaboration', 'focus']);
+        
+        return response()->json($behavioralScores);
+    }
     
 
 }
