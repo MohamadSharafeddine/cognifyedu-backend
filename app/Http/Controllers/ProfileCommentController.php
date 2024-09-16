@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
 use App\Http\Requests\StoreProfileCommentRequest;
+use Illuminate\Support\Facades\Log as Log;
 
 class ProfileCommentController extends Controller
 {
@@ -19,20 +20,33 @@ class ProfileCommentController extends Controller
     public function store(StoreProfileCommentRequest $request): JsonResponse
     {
         try {
+            Log::info('Storing profile comment: ', $request->all());
+            
             $data = $request->validated();
-        
+            
+            Log::info('Validated profile comment data: ', $data);
+    
             $profileComment = ProfileComment::create($data);
-        
-            // $aiData = app(AIController::class)->prepareDataForPrompt($data['student_id']);
-        
+            
+            Log::info('Created profile comment: ', $profileComment->toArray());
+    
+            $aiController = app(AIController::class);
+            $aiResult = $aiController->analyzeStudentPerformance($data['student_id']);
+    
+            Log::info('AI analysis completed: ', $aiResult);
+    
             return response()->json([
                 'profile_comment' => $profileComment,
-                // 'ai_data' => $aiData,
+                'ai_response' => $aiResult,
             ], 201);
         } catch (Exception $e) {
+            Log::error('Error storing profile comment: ' . $e->getMessage());
+            
             return response()->json(['error' => $e->getMessage()], 500);
         }
-    }    
+    }
+    
+    
     
 
     public function getProfileComments($studentId): JsonResponse
