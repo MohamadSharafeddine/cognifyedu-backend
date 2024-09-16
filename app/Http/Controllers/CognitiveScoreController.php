@@ -68,9 +68,8 @@ class CognitiveScoreController extends Controller
         return response()->json(['message' => 'Successfully deleted cognitive score'], 200);
     }
 
-    public function getUserAverageScores($studentId)
-    {
-        $averageScores = CognitiveScore::where('student_id', $studentId)
+    public function getUserAverageScores($userId) {
+        $averageScores = CognitiveScore::where('student_id', $userId)
             ->selectRaw('ROUND(AVG(critical_thinking)) as critical_thinking, 
                          ROUND(AVG(logical_thinking)) as logical_thinking, 
                          ROUND(AVG(linguistic_ability)) as linguistic_ability, 
@@ -81,5 +80,13 @@ class CognitiveScoreController extends Controller
         return response()->json($averageScores);
     }
     
+    public function getUserScoresProgress($userId)
+    {
+        $cognitiveScores = CognitiveScore::where('student_id', $userId)
+            ->orderBy('created_at', 'asc')
+            ->get(['critical_thinking', 'logical_thinking', 'linguistic_ability', 'memory', 'attention_to_detail', 'created_at']);
+        
+        return response()->json($cognitiveScores);
+    }
 
 }
