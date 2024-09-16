@@ -51,6 +51,7 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('/{assignment}', 'destroy');
         Route::get('{assignmentId}/download', 'downloadAttachment');
         Route::get('/course/{courseId}', 'getAssignmentsForCourse');
+        Route::get('/course/{courseId}/recent-with-marks', 'getRecentAssignmentsWithMarks');
     });
 
     Route::prefix('submissions')->controller(SubmissionController::class)->group(function () {
