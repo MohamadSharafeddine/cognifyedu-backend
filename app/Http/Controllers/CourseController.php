@@ -25,45 +25,52 @@ class CourseController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $courses = Course::all();
+            $courses = Course::with('teacher:id,name')->get();
             return response()->json($courses);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to fetch courses'], 500);
         }
     }
-
+    
     public function getCoursesByUserId($userId): JsonResponse
     {
         try {
             $user = User::findOrFail($userId);
-
+    
             if ($user->type === 'teacher') {
-                $courses = Course::where('teacher_id', $user->id)->get();
+                $courses = Course::with('teacher:id,name')
+                                 ->where('teacher_id', $user->id)
+                                 ->get();
             } else {
                 $courseIds = CourseStudent::where('student_id', $user->id)->pluck('course_id');
-                $courses = Course::whereIn('id', $courseIds)->get();
+                $courses = Course::with('teacher:id,name')
+                                 ->whereIn('id', $courseIds)
+                                 ->get();
             }
-
+    
             return response()->json($courses);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to fetch courses for the user'], 500);
         }
     }
+    
 
     public function store(StoreCourseRequest $request): JsonResponse
     {
         try {
             $user = Auth::user();
-
+    
             if ($user->type !== 'teacher') {
                 return response()->json(['message' => 'Unauthorized'], 403);
             }
-
+    
             $data = $request->validated();
             $data['teacher_id'] = $user->id;
             $data['code'] = $this->generateCourseCode();
             $course = Course::create($data);
-
+    
+            $course->load('teacher');
+    
             return response()->json($course, 201);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to create course'], 500);
