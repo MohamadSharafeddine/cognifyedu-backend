@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateAssignmentRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\JsonResponse;
 use Exception;
+use App\Models\CourseStudent;
+use App\Models\Submission;
 
 class AssignmentController extends Controller
 {
@@ -134,4 +136,35 @@ class AssignmentController extends Controller
             return response()->json(['message' => 'Error downloading file', 'error' => $e->getMessage()], 500);
         }
     }    
+
+    public function getRecentAssignmentsWithMarks($courseId): JsonResponse
+    {
+        try {
+            $assignments = Assignment::where('course_id', $courseId)
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get();
+    
+            $students = CourseStudent::where('course_id', $courseId)->pluck('student_id');
+    
+            $assignmentData = $assignments->map(function ($assignment) use ($students) {
+                $submissions = Submission::where('assignment_id', $assignment->id)
+                    ->whereIn('student_id', $students)
+                    ->with('student:id,name,profile_picture')
+                    ->get();
+    
+                return [
+                    'assignment_id' => $assignment->id,
+                    'title' => $assignment->title,
+                    'submissions' => $submissions,
+                ];
+            });
+    
+            return response()->json($assignmentData);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to fetch recent assignments with marks'], 500);
+        }
+    }
+    
+    
 }
