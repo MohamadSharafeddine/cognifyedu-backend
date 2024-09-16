@@ -109,6 +109,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/{insight}', 'update');
         Route::delete('/{insight}', 'destroy');
         Route::get('/user/{userId}', 'getUserInsights');
+        Route::get('/user/{userId}/latest', 'getLatestInsights');
     });
 
     Route::get('/ai/assessment/{studentId}', [AIController::class, 'analyzeStudentPerformance']);
