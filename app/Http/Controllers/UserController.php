@@ -154,19 +154,21 @@ class UserController extends Controller
         try {
             $student = User::findOrFail($studentId);
             $parentId = request('parent_id');
-
+    
             if (!$parentId || !User::where('id', $parentId)->where('type', 'parent')->exists()) {
-                return response()->json(['message' => 'Invalid parent ID'], 400);
+                return response()->json(['message' => 'Parent ID not found or is invalid'], 404);
             }
-
+    
             $student->parent_id = $parentId;
             $student->save();
-
+    
             return response()->json(['message' => 'Parent added successfully']);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to add parent to student'], 500);
         }
     }
+    
+    
 
 
 public function getChildren($parentId): JsonResponse
