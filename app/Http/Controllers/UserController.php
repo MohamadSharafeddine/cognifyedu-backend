@@ -48,7 +48,6 @@ class UserController extends Controller
         }
     }
     
-
     public function show(User $user): JsonResponse
     {
         if ($user->profile_picture) {
@@ -149,4 +148,43 @@ class UserController extends Controller
             return response()->json(['message' => 'Failed to retrieve profile picture'], 500);
         }
     }
+
+    public function addParentToStudent($studentId): JsonResponse
+    {
+        try {
+            $student = User::findOrFail($studentId);
+            $parentId = request('parent_id');
+
+            if (!$parentId || !User::where('id', $parentId)->where('type', 'parent')->exists()) {
+                return response()->json(['message' => 'Invalid parent ID'], 400);
+            }
+
+            $student->parent_id = $parentId;
+            $student->save();
+
+            return response()->json(['message' => 'Parent added successfully']);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Failed to add parent to student'], 500);
+        }
+    }
+
+
+public function getChildren($parentId): JsonResponse
+{
+    try {
+        $parent = User::findOrFail($parentId);
+
+        if ($parent->type !== 'parent') {
+            return response()->json(['message' => 'User is not a parent'], 400);
+        }
+
+        $children = User::where('parent_id', $parentId)->get();
+
+        return response()->json($children);
+    } catch (Exception $e) {
+        return response()->json(['message' => 'Failed to retrieve children'], 500);
+    }
+}
+
+
 }
