@@ -31,6 +31,8 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/logout', 'logout');
         Route::get('/{user}/profile-picture', 'downloadProfilePicture');
         Route::get('/email/{email}', 'getUserByEmail');
+        Route::post('/{student}/add-parent', 'addParentToStudent');
+        Route::get('/{parent}/children', 'getChildren');
     });
 
     Route::prefix('courses')->controller(CourseController::class)->group(function () {
