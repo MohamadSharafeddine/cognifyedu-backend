@@ -29,7 +29,7 @@ class UpdateUserRequest extends FormRequest
             'date_of_birth' => 'sometimes|date',
             'address' => 'sometimes|string|max:255',
             'profile_picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'parent_id' => 'sometimes|exists:users,id',
+            'parent_id' => 'sometimes|exists:users,id,type,parent',
         ];
     }
 }
