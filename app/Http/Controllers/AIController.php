@@ -88,7 +88,7 @@ class AIController extends Controller
                 ->latest('created_at')
                 ->skip(1)
                 ->first();
-
+    
             if (!$previousComment) {
                 $newSubmissions = Submission::where('student_id', $studentId)->with('assignment.course')->get();
                 Log::info('No previous comments found, fetching all submissions.');
@@ -99,47 +99,70 @@ class AIController extends Controller
                     ->get();
                 Log::info('Previous comments found, fetching new submissions.');
             }
-
+    
             Log::info('New Submissions found: ', $newSubmissions->toArray());
-
+    
             $dataForAI = [];
             foreach ($newSubmissions as $submission) {
-                $assignment = $submission->assignment;
-                $course = $assignment->course;
-                $extractedSubmissionText = $this->extractTextFromFile(storage_path('app/public/' . $submission->deliverable));
-                $extractedAssignmentText = $this->extractTextFromFile(storage_path('app/public/' . $assignment->attachment));
-
-                $dataForAI[] = [
-                    'student_id'            => $studentId,
-                    'assignment_id'         => $assignment->id,
-                    'assignment_title'      => $assignment->title,
-                    'assignment_description'=> $assignment->description,
-                    'assignment_content'    => $extractedAssignmentText,
-                    'assignment_due_date'   => $assignment->due_date,
-                    'course_name'           => $course->name,
-                    'submission_id'         => $submission->id,
-                    'submission_date'       => $submission->submission_date,
-                    'submission_content'    => $extractedSubmissionText,
-                    'teacher_comment'       => $submission->teacher_comment,
-                    'mark'                  => $submission->mark,
-                    'created_at'            => $submission->created_at,
-                    'updated_at'            => $submission->updated_at,
-                ];
+                try {
+                    $assignment = $submission->assignment;
+                    $course = $assignment->course;
+                    
+                    $extractedSubmissionText = '';
+                    if ($submission->deliverable) {
+                        $extractedSubmissionText = $this->extractTextFromFile(storage_path('app/public/' . $submission->deliverable));
+                    } else {
+                        Log::warning('Submission ID ' . $submission->id . ' has no deliverable.');
+                    }
+    
+                    $extractedAssignmentText = '';
+                    if ($assignment->attachment) {
+                        $extractedAssignmentText = $this->extractTextFromFile(storage_path('app/public/' . $assignment->attachment));
+                    } else {
+                        Log::warning('Assignment ID ' . $assignment->id . ' has no attachment.');
+                    }
+    
+                    $dataForAI[] = [
+                        'student_id'            => $studentId,
+                        'assignment_id'         => $assignment->id,
+                        'assignment_title'      => $assignment->title,
+                        'assignment_description'=> $assignment->description,
+                        'assignment_content'    => $extractedAssignmentText,
+                        'assignment_due_date'   => $assignment->due_date,
+                        'course_name'           => $course->name,
+                        'submission_id'         => $submission->id,
+                        'submission_date'       => $submission->submission_date,
+                        'submission_content'    => $extractedSubmissionText,
+                        'teacher_comment'       => $submission->teacher_comment,
+                        'mark'                  => $submission->mark,
+                        'created_at'            => $submission->created_at,
+                        'updated_at'            => $submission->updated_at,
+                    ];
+                } catch (Exception $e) {
+                    Log::error('Error processing submission ID ' . $submission->id . ': ' . $e->getMessage());
+                }
             }
-
+    
             Log::info('Data for AI: ', $dataForAI);
-
+    
             return $dataForAI;
         } catch (Exception $e) {
             Log::error('Error in collecting data for AI: ' . $e->getMessage());
             return [];
         }
     }
+    
 
     private function extractTextFromFile($filePath)
     {
+        if (!file_exists($filePath)) {
+            Log::warning('File not found: ' . $filePath);
+            return '';
+        }
+    
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-
+        Log::info('Processing file with extension: ' . $extension);
+    
         switch (strtolower($extension)) {
             case 'txt':
                 return file_get_contents($filePath);
@@ -150,9 +173,11 @@ class AIController extends Controller
             case 'docx':
                 return $this->extractTextFromDocx($filePath);
             default:
-                throw new Exception('Unsupported file type.');
+                Log::warning('Unsupported file type: ' . $extension);
+                return '';
         }
     }
+    
 
     private function extractTextFromDocx($filePath)
     {
