@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Exception;
 use App\Models\CourseStudent;
 use App\Models\Submission;
+use Illuminate\Support\Facades\Log;
 
 class AssignmentController extends Controller
 {
@@ -161,6 +162,7 @@ class AssignmentController extends Controller
             });
     
             return response()->json($assignmentData);
+            Log ::info($assignmentData);
         } catch (Exception $e) {
             return response()->json(['message' => 'Failed to fetch recent assignments with marks'], 500);
         }
