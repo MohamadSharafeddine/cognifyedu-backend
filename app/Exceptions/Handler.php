@@ -4,6 +4,15 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Illuminate\Http\JsonResponse;
 
 class Handler extends ExceptionHandler
 {
@@ -44,5 +53,61 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception): JsonResponse
+    {
+        if ($exception instanceof ValidationException) {
+            return response()->json([
+                'message' => 'Validation failed.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json([
+                'message' => 'Resource not found.',
+            ], 404);
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            return response()->json([
+                'message' => 'Unauthenticated.',
+            ], 401);
+        }
+
+        if ($exception instanceof TokenExpiredException) {
+            return response()->json([
+                'message' => 'Token has expired.',
+            ], 401);
+        }
+
+        if ($exception instanceof TokenInvalidException) {
+            return response()->json([
+                'message' => 'Token is invalid.',
+            ], 401);
+        }
+
+        if ($exception instanceof JWTException) {
+            return response()->json([
+                'message' => 'Token error.',
+            ], 500);
+        }
+
+        if ($exception instanceof NotFoundHttpException) {
+            return response()->json([
+                'message' => 'Endpoint not found.',
+            ], 404);
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return response()->json([
+                'message' => 'Method not allowed.',
+            ], 405);
+        }
+
+        return response()->json([
+            'message' => 'An unexpected error occurred.',
+        ], 500);
     }
 }
