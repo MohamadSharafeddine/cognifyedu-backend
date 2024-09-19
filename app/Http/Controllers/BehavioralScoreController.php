@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BehavioralScore;
 use App\Http\Requests\StoreBehavioralScoreRequest;
 use App\Http\Requests\UpdateBehavioralScoreRequest;
-
+use Illuminate\Support\Facades\Log;
 class BehavioralScoreController extends Controller
 {
     /**
@@ -83,11 +83,14 @@ class BehavioralScoreController extends Controller
     public function getUserScoresProgress($userId)
     {
         $behavioralScores = BehavioralScore::where('student_id', $userId)
-            ->orderBy('created_at', 'asc')
-            ->get(['engagement', 'time_management', 'adaptability', 'collaboration', 'focus']);
-        
+        ->orderBy('created_at', 'desc')
+        ->take(20)
+        ->get(['engagement', 'time_management', 'adaptability', 'collaboration', 'focus', 'created_at']);
+    
         return response()->json($behavioralScores);
     }
+    
+    
     
 
 }
