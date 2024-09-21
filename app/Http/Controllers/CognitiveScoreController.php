@@ -83,7 +83,8 @@ class CognitiveScoreController extends Controller
     public function getUserScoresProgress($userId)
     {
         $cognitiveScores = CognitiveScore::where('student_id', $userId)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->take(20)
             ->get(['critical_thinking', 'logical_thinking', 'linguistic_ability', 'memory', 'attention_to_detail', 'created_at']);
         
         return response()->json($cognitiveScores);
