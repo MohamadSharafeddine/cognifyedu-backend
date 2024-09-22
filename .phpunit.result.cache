@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Tests\\Unit\\UserControllerTest::it_returns_all_users":7},"times":{"Tests\\Unit\\ExampleTest::test_that_true_is_true":0.005,"Tests\\Feature\\ExampleTest::test_the_application_returns_a_successful_response":0.018,"Tests\\Unit\\UserControllerTest::it_returns_all_users":0.119,"Tests\\Unit\\UserControllerTest::it_returns_the_created_users_only":0.124}}
