@@ -84,30 +84,20 @@ class AIController extends Controller
     public function collectDataForAI($studentId)
     {
         try {
-            $previousComment = ProfileComment::where('student_id', $studentId)
-                ->latest('created_at')
-                ->skip(1)
-                ->first();
+            $newSubmissions = Submission::where('student_id', $studentId)
+                ->with('assignment.course')
+                ->orderBy('updated_at', 'desc')
+                ->take(5)
+                ->get();
     
-            if (!$previousComment) {
-                $newSubmissions = Submission::where('student_id', $studentId)->with('assignment.course')->get();
-                Log::info('No previous comments found, fetching all submissions.');
-            } else {
-                $newSubmissions = Submission::where('student_id', $studentId)
-                    ->where('updated_at', '>', $previousComment->created_at)
-                    ->with('assignment.course')
-                    ->get();
-                Log::info('Previous comments found, fetching new submissions.');
-            }
-    
-            Log::info('New Submissions found: ', $newSubmissions->toArray());
+            Log::info('Last 5 Submissions found: ', $newSubmissions->toArray());
     
             $dataForAI = [];
             foreach ($newSubmissions as $submission) {
                 try {
                     $assignment = $submission->assignment;
                     $course = $assignment->course;
-                    
+    
                     $extractedSubmissionText = '';
                     if ($submission->deliverable) {
                         $extractedSubmissionText = $this->extractTextFromFile(storage_path('app/public/' . $submission->deliverable));
@@ -128,6 +118,7 @@ class AIController extends Controller
                         'assignment_title'      => $assignment->title,
                         'assignment_description'=> $assignment->description,
                         'assignment_content'    => $extractedAssignmentText,
+                        'created_at'            => $assignment->created_at,
                         'assignment_due_date'   => $assignment->due_date,
                         'course_name'           => $course->name,
                         'submission_id'         => $submission->id,
@@ -135,8 +126,6 @@ class AIController extends Controller
                         'submission_content'    => $extractedSubmissionText,
                         'teacher_comment'       => $submission->teacher_comment,
                         'mark'                  => $submission->mark,
-                        'created_at'            => $submission->created_at,
-                        'updated_at'            => $submission->updated_at,
                     ];
                 } catch (Exception $e) {
                     Log::error('Error processing submission ID ' . $submission->id . ': ' . $e->getMessage());
@@ -150,8 +139,8 @@ class AIController extends Controller
             Log::error('Error in collecting data for AI: ' . $e->getMessage());
             return [];
         }
-    }
-    
+    }   
+
 
     private function extractTextFromFile($filePath)
     {
