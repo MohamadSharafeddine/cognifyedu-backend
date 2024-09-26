@@ -91,6 +91,7 @@ class OpenAIService
                 Offer suggestions on how teachers and parents can support the student's development.]",
                 "progress_tracking": "[Provide methods to track progress, focusing on specific cognitive and behavioral improvements. Identify chronological progress based on the given data]"
             }
+        }
         EOD;
     }
     
